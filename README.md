@@ -265,11 +265,3 @@ Enjoy the smart dining experience 🍽️💡
 
 ---
 
-If you want, I can also generate:
-
-✅ A **banner image**  
-✅ A **logo image**  
-✅ A **CONTRIBUTING.md**  
-✅ A **LICENSE file**  
-
-Just tell me!
