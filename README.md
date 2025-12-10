@@ -221,23 +221,29 @@ The project includes complete UML documentation:
 # 🚀 Installation & Setup
 
 ## 1️⃣ Clone Repository
-
-git clone https://github.com/<your-username>/meal-map.git
+```
+git clone https://github.com/Syed-Waleed-Hussain/meal-map.git
 cd meal-map
+```
 
 2️⃣ Install Python Dependencies
+```
 pip install -r requirements.txt
-
+```
 3️⃣ Setup Database
+```
 Import .sql schema
 Update DB credentials in App.py
-
+```
 4️⃣ Run Backend
+```
 python server.py
 python app.py
+```
 5️⃣ Run Frontend
+```
 Open index.html in a browser.
-
+```
 🔮 Future Enhancements
 ML-based popularity ranking
 Real-time order tracking
