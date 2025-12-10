@@ -78,7 +78,7 @@ Meal-Map is a smart restaurant platform featuring:
 ---
 
 # 🏗️ Architecture
-
+```
 ┌───────────────────────────────┐
 │ Presentation Layer │
 │ HTML • CSS • JavaScript │
@@ -95,7 +95,7 @@ Meal-Map is a smart restaurant platform featuring:
 │ Database Layer │
 │ Aiven Cloud MySQL Database │
 └───────────────────────────────┘
-
+```
 ---
 
 # ⚙️ Core Features
@@ -198,7 +198,9 @@ This ensures relevant, accurate restaurant recommendations.
 - Favourite, review, promotions logic  
 
 ### **Entry File**
-App.py
+```
+app.py
+```
 ---
 
 # 📈 UML Diagrams
@@ -219,39 +221,34 @@ The project includes complete UML documentation:
 # 🚀 Installation & Setup
 
 ## 1️⃣ Clone Repository
-```bash
+
 git clone https://github.com/<your-username>/meal-map.git
 cd meal-map
+
 2️⃣ Install Python Dependencies
-bash
-Copy code
 pip install -r requirements.txt
+
 3️⃣ Setup Database
 Import .sql schema
-
 Update DB credentials in App.py
 
 4️⃣ Run Backend
-bash
-Copy code
-python App.py
+python server.py
+python app.py
 5️⃣ Run Frontend
 Open index.html in a browser.
 
 🔮 Future Enhancements
 ML-based popularity ranking
-
 Real-time order tracking
-
 Advanced analytics dashboard
-
 Chatbot for reservations
 
 🤝 Contributors
 Name	Roll Number
-Syed Waleed Hussain	23K-0885
-Sofia Ayaz	23K-0807
-Shayan Nemat	23K-0899
+Syed Waleed Hussain
+Sofia Ayaz	
+Shayan Nemat	
 
 📜 License
 This project is licensed under the MIT License.
@@ -259,9 +256,6 @@ This project is licensed under the MIT License.
 🙌 Acknowledgment
 Thank you for exploring Meal-Map!
 Enjoy the smart dining experience 🍽️💡
-
-yaml
-Copy code
 
 ---
 
