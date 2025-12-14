@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MealMap - Find & Book Your Perfect Dining Experience</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app-header"></div>
+
+    <section class="hero-section">
+        <div class="container">
+            <h1 class="hero-title">Discover Your Next<br>Favorite Restaurant</h1>
+            <p class="hero-subtitle">Find nearby restaurants, book tables instantly, and save your favorites - all in one place.</p>
+            <div class="hero-buttons">
+                <a href="/restaurants" class="btn btn-primary btn-large">Find Restaurants</a>
+                <a href="/promotions" class="btn btn-secondary btn-large">View Promotions</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-bg-white">
+        <div class="container">
+            <h2 class="section-title">Explore by Cuisine</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="window.location.href='/restaurants?cuisine=italian'">
+                    <div class="category-icon">🍝</div>
+                    <h3 class="category-name">Italian</h3>
+                    <p class="category-description">From classic pasta to wood-fired pizzas, discover authentic Italian flavors.</p>
+                    <a href="/restaurants?cuisine=italian" class="explore-link">Explore Restaurants →</a>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/restaurants?cuisine=chinese'">
+                    <div class="category-icon">🥢</div>
+                    <h3 class="category-name">Chinese</h3>
+                    <p class="category-description">Savor traditional Chinese dishes from dim sum to Szechuan specialties.</p>
+                    <a href="/restaurants?cuisine=chinese" class="explore-link">Explore Restaurants →</a>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/restaurants?cuisine=indian'">
+                    <div class="category-icon">🍛</div>
+                    <h3 class="category-name">Indian</h3>
+                    <p class="category-description">Experience rich curries and tandoori favorites bursting with spices.</p>
+                    <a href="/restaurants?cuisine=indian" class="explore-link">Explore Restaurants →</a>
+                </div>
+                
+                <div class="category-card" onclick="window.location.href='/restaurants?cuisine=japanese'">
+                    <div class="category-icon">🍣</div>
+                    <h3 class="category-name">Japanese</h3>
+                    <p class="category-description">Enjoy fresh sushi, ramen, and Japanese culinary artistry.</p>
+                    <a href="/restaurants?cuisine=japanese" class="explore-link">Explore Restaurants →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-bg-cream">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 style="margin-bottom: 1.5rem;">Your Complete Restaurant Experience</h2>
+                <p style="color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem;">
+                    We help you discover the perfect dining experience by connecting you with the best restaurants in your area. Browse by cuisine, location, or rating to find exactly what you're craving.
+                </p>
+                <p style="color: var(--color-text-secondary); font-size: 1.05rem; line-height: 1.8; margin-bottom: 2.5rem;">
+                    Book tables instantly, save your favorite spots, and never miss out on special promotions. Your next memorable meal is just a few clicks away.
+                </p>
+                <a href="/restaurants" class="btn btn-primary btn-large">Start Exploring</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-bg-white">
+        <div class="container">
+            <h2 class="section-title">Why Choose Us</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">📍</span>
+                    <h3 class="feature-title">Find Nearby</h3>
+                    <p class="feature-description">Discover restaurants near you with real-time location-based search and distance tracking.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">📅</span>
+                    <h3 class="feature-title">Instant Booking</h3>
+                    <p class="feature-description">Book tables at your favorite restaurants instantly with our seamless reservation system.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">❤️</span>
+                    <h3 class="feature-title">Save Favorites</h3>
+                    <p class="feature-description">Mark restaurants as favorites and build your personal collection of go-to dining spots.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <span class="feature-icon">🎉</span>
+                    <h3 class="feature-title">Promotions</h3>
+                    <p class="feature-description">Get access to exclusive deals and special offers from top-rated restaurants.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="background-color: var(--color-primary-dark); color: white; padding: var(--spacing-xl) 0; text-align: center;">
+        <div class="container">
+            <h3 style="color: white; font-family: var(--font-heading); margin-bottom: var(--spacing-md);">🍽️ MealMap</h3>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: var(--spacing-sm);">Connecting food lovers with amazing restaurants. Discover, book, and enjoy your perfect dining experience.</p>
+            <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">Copyright © 2025 MealMap. All Rights Reserved</p>
+        </div>
+    </footer>
+
+    <script src="/js/api-client.js"></script>
+    <script src="/js/header.js"></script>
+    <script>
+        window.appHeader = new AppHeader();
+        window.appHeader.mount();
+    </script>
+</body>
+</html>

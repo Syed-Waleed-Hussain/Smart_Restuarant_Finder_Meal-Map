@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MealMap</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+
+        .stat-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--color-border-light);
+            transition: all var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-family: var(--font-heading);
+            color: var(--color-text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .profile-section {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: var(--spacing-xl);
+            border: 1px solid var(--color-border-light);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .profile-info h2 {
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-email {
+            color: var(--color-text-secondary);
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            padding: 1rem;
+            background: var(--color-cream);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            color: var(--color-text-primary);
+            transition: all var(--transition-normal);
+        }
+
+        .action-btn:hover {
+            background: var(--color-surface);
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .action-icon {
+            font-size: 1.5rem;
+        }
+
+        .recent-activity {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--color-border-light);
+        }
+
+        .activity-item {
+            padding: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-time {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div id="app-header"></div>
+
+    <section class="section">
+        <div class="container">
+            <h1 style="margin-bottom: var(--spacing-xl);">Dashboard</h1>
+
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profile-avatar">U</div>
+                    <div class="profile-info">
+                        <h2 id="user-name">Loading...</h2>
+                        <p class="profile-email" id="user-email"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">📅</div>
+                    <div class="stat-value" id="total-reservations">0</div>
+                    <div class="stat-label">Total Reservations</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">❤️</div>
+                    <div class="stat-value" id="favorite-count">0</div>
+                    <div class="stat-label">Favorite Restaurants</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">⭐</div>
+                    <div class="stat-value" id="review-count">0</div>
+                    <div class="stat-label">Reviews Written</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">🎉</div>
+                    <div class="stat-value" id="upcoming-reservations">0</div>
+                    <div class="stat-label">Upcoming Reservations</div>
+                </div>
+            </div>
+
+            <h3 style="margin-bottom: var(--spacing-md);">Quick Actions</h3>
+            <div class="quick-actions">
+                <a href="/restaurants" class="action-btn">
+                    <span class="action-icon">🍽️</span>
+                    <span>Browse Restaurants</span>
+                </a>
+                <a href="/my-reservations" class="action-btn">
+                    <span class="action-icon">📅</span>
+                    <span>My Reservations</span>
+                </a>
+                <a href="/favorites" class="action-btn">
+                    <span class="action-icon">❤️</span>
+                    <span>Favorites</span>
+                </a>
+                <a href="/promotions" class="action-btn">
+                    <span class="action-icon">🎁</span>
+                    <span>View Promotions</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/api-client.js"></script>
+    <script src="/js/header.js"></script>
+    <script>
+        window.appHeader = new AppHeader();
+        window.appHeader.mount();
+
+        async function loadDashboard() {
+            const user = api.getCurrentUser();
+            const userId = api.getCurrentUserId();
+
+            if (!userId) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const firstName = user.FirstName || user.first_name || '';
+            const lastName = user.LastName || user.last_name || '';
+            const email = user.Email || user.email || '';
+
+            document.getElementById('user-name').textContent = firstName && lastName 
+                ? `${firstName} ${lastName}` 
+                : firstName || 'User';
+            
+            document.getElementById('user-email').textContent = email;
+
+            if (firstName && lastName) {
+                document.getElementById('profile-avatar').textContent = 
+                    (firstName[0] + lastName[0]).toUpperCase();
+            } else if (firstName) {
+                document.getElementById('profile-avatar').textContent = 
+                    firstName.substring(0, 2).toUpperCase();
+            } else if (email) {
+                document.getElementById('profile-avatar').textContent = 
+                    email.substring(0, 2).toUpperCase();
+            }
+
+            try {
+                const [metrics] = await api.getUserDashboardMetrics(userId);    
+                document.getElementById('total-reservations').textContent = metrics.TotalReservations;
+                document.getElementById('favorite-count').textContent = metrics.TotalFavorites;
+                document.getElementById('review-count').textContent = metrics.TotalReviews;
+                document.getElementById('upcoming-reservations').textContent = metrics.UpcomingReservations;
+
+            } catch (err) {
+                console.error('Failed to load dashboard data:', err);
+            }
+        }
+
+        loadDashboard();
+    </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promotions & Deals - MealMap</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-hero {
+            background-color: var(--color-cream);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-hero p {
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .promotions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .promo-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-border-light);
+            transition: all var(--transition-normal);
+        }
+
+        .promo-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: transparent;
+        }
+
+        .promo-header {
+            background: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-hover) 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .promo-discount {
+            font-size: 3rem;
+            font-weight: 700;
+            font-family: var(--font-heading);
+        }
+
+        .promo-body {
+            padding: 1.5rem;
+        }
+
+        .promo-title {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-primary);
+        }
+
+        .promo-description {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: var(--spacing-sm);
+            line-height: 1.6;
+        }
+
+        .promo-restaurant {
+            color: var(--color-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .promo-validity {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+        }
+
+        .promo-code {
+            background-color: var(--color-cream);
+            padding: 0.75rem;
+            border-radius: var(--radius-sm);
+            text-align: center;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-top: var(--spacing-sm);
+            border: 2px dashed var(--color-accent);
+        }
+
+        .loading {
+            text-align: center;
+            padding: var(--spacing-xl);
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state h2 {
+            font-family: var(--font-heading);
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .empty-state p {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+        }
+
+        .error {
+            background-color: var(--color-error-bg);
+            border: 1px solid var(--color-error);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            color: var(--color-error);
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+    <div id="app-header"></div>
+    
+    <div class="page-hero">
+        <div class="container">
+            <h1>🎉 Special Offers & Promotions</h1>
+            <p>Save money on your next dining experience</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div id="errorContainer"></div>
+            <div id="loadingContainer" class="loading" style="display: none;">
+                Loading promotions...
+            </div>
+            <div id="promotionsGrid" class="promotions-grid"></div>
+        </div>
+    </section>
+
+    <script src="/js/api-client.js"></script>
+    <script src="/js/header.js"></script>
+    <script>
+        window.appHeader = new AppHeader();
+        window.appHeader.mount();
+
+        window.addEventListener('DOMContentLoaded', () => {
+            loadPromotions();
+        });
+
+        async function loadPromotions() {
+            const loadingEl = document.getElementById('loadingContainer');
+            const gridEl = document.getElementById('promotionsGrid');
+            const errorEl = document.getElementById('errorContainer');
+
+            try {
+                loadingEl.style.display = 'block';
+                gridEl.innerHTML = '';
+                errorEl.innerHTML = '';
+
+                const promotions = await api.getActivePromotions();
+
+                loadingEl.style.display = 'none';
+
+                if (!promotions || promotions.length === 0) {
+                    gridEl.innerHTML = `
+                        <div class="empty-state">
+                            <h2>No active promotions at the moment</h2>
+                            <p>Check back later for amazing deals!</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                renderPromotions(promotions);
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                errorEl.innerHTML = `<div class="error">Error loading promotions: ${error.message}</div>`;
+                console.error('Error:', error);
+            }
+        }
+
+        function renderPromotions(promotions) {
+            const gridEl = document.getElementById('promotionsGrid');
+            gridEl.innerHTML = promotions.map(promo => `
+                <div class="promo-card">
+                    <div class="promo-header">
+                        <div class="promo-discount">${promo.Discount}% OFF</div>
+                    </div>
+                    <div class="promo-body">
+                        <h3 class="promo-title">${promo.Title || 'Special Offer'}</h3>
+                        <p class="promo-description">${promo.Description || ''}</p>
+                        <div class="promo-restaurant">📍 ${promo.RestaurantName || 'Various Restaurants'}</div>
+                        <div class="promo-validity">
+                            Valid: ${formatDate(promo.ValidFrom)} - ${formatDate(promo.ValidTo)}
+                        </div>
+                        ${promo.PromoCode ? `<div class="promo-code">Code: ${promo.PromoCode}</div>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+    </script>
+</body>
+</html>

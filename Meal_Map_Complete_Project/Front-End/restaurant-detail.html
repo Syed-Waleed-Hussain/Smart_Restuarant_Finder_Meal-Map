@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Details - MealMap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <style>
+        body {
+            background-color: var(--color-background);
+        }
+
+        .restaurant-hero {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            padding: var(--spacing-3xl) var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+        }
+
+        .restaurant-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.35) 100%);
+            pointer-events: none;
+        }
+
+        .restaurant-hero .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .restaurant-hero h1 {
+            font-family: var(--font-heading);
+            font-size: 3.5rem;
+            color: white;
+            margin-bottom: var(--spacing-md);
+            letter-spacing: -0.02em;
+        }
+
+        .restaurant-info {
+            display: flex;
+            gap: var(--spacing-lg);
+            flex-wrap: wrap;
+            align-items: center;
+            font-family: var(--font-body);
+        }
+
+        .restaurant-info-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .content-section {
+            background: var(--color-surface);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--color-border-light);
+        }
+
+        .content-section h2 {
+            font-family: var(--font-heading);
+            font-size: 2.25rem;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-primary);
+            letter-spacing: -0.01em;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .menu-item {
+            background: var(--color-background);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-border);
+        }
+
+        .menu-item h3 {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            color: var(--color-text-primary);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .menu-item p {
+            color: var(--color-text-secondary);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .menu-item-price {
+            font-weight: 600;
+            color: var(--color-accent);
+            font-size: 1.1rem;
+            font-family: var(--font-body);
+            margin-top: var(--spacing-sm);
+        }
+
+        .promo-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin: var(--spacing-lg) 0;
+            align-items: flex-start;
+        }
+
+        .discount-badge-hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 1rem;
+            box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .date-badge-hero {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .review-form {
+            background: var(--color-cream);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--spacing-xl);
+            border: 1px solid var(--color-border-light);
+        }
+
+        .review-form h3 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-text-primary);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            font-family: var(--font-body);
+        }
+
+        .input-text {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: border-color var(--transition-fast);
+            resize: vertical;
+        }
+
+        .input-text:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .review-card {
+            background: var(--color-cream);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-border-light);
+            transition: all var(--transition-fast);
+        }
+
+        .review-card:hover {
+            box-shadow: var(--shadow-sm);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .reviewer-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .reviewer-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-family: var(--font-body);
+            font-size: 1rem;
+        }
+
+        .reviewer-info strong {
+            font-family: var(--font-body);
+            color: var(--color-text-primary);
+            font-weight: 600;
+        }
+
+        .review-date {
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            font-family: var(--font-body);
+        }
+
+        .review-text {
+            margin-top: var(--spacing-sm);
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+            font-family: var(--font-body);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--color-text-muted);
+            padding: var(--spacing-xl);
+            font-family: var(--font-body);
+        }
+
+        #rating-input {
+            margin: var(--spacing-sm) 0;
+        }
+
+        .favorite-btn-hero {
+            background: white;
+            border: 2px solid white;
+            border-radius: var(--radius-md);
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: var(--spacing-md);
+        }
+
+        .favorite-btn-hero:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .favorite-btn-hero.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        .booking-section {
+            background: var(--color-cream);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .booking-form {
+            display: grid;
+            gap: var(--spacing-md);
+            max-width: 600px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-md);
+        }
+
+        .booking-input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: var(--font-body);
+        }
+
+        .booking-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        @media (max-width: 768px) {
+            .restaurant-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .content-section {
+                padding: var(--spacing-lg);
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app-header-mount"></div>
+
+    <main class="main-content">
+        <div id="restaurant-hero" class="restaurant-hero">
+            <div class="container">
+                <h1 id="restaurant-name">Loading...</h1>
+                <div class="restaurant-info">
+                    <div class="restaurant-info-item">
+                        <span id="restaurant-rating"></span>
+                        <span id="restaurant-rating-count"></span>
+                    </div>
+                    <div class="restaurant-info-item">
+                        🍽️ <span id="restaurant-cuisine"></span>
+                    </div>
+                    <div class="restaurant-info-item">
+                        📍 <span id="restaurant-location"></span>
+                    </div>
+                </div>
+                <div id="promo-badges-container" class="promo-badges" style="display: none;"></div>
+                <button id="favorite-btn-hero" class="favorite-btn-hero" onclick="toggleFavoriteDetail()" style="display: none;">
+                    <span id="favorite-icon">🤍</span>
+                    <span id="favorite-text">Add to Favorites</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            <section class="content-section booking-section" id="booking-section">
+                <h2>Book a Table</h2>
+                
+                <div id="booking-login-prompt" style="display: none; text-align: center; padding: var(--spacing-xl);">
+                    <p style="color: var(--color-text-secondary); font-size: 1.1rem; margin-bottom: var(--spacing-lg);">
+                        Please log in to make a reservation
+                    </p>
+                    <a href="/login" class="btn btn-primary btn-large">Login to Book</a>
+                </div>
+
+                <form id="booking-form" class="booking-form" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="booking-date">Date</label>
+                            <input type="date" id="booking-date" class="booking-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-time">Time</label>
+                            <input type="time" id="booking-time" class="booking-input" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="guest-count">Number of Guests</label>
+                        <select id="guest-count" class="booking-input" required>
+                            <option value="">Select number of guests</option>
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5 Guests</option>
+                            <option value="6">6 Guests</option>
+                            <option value="7">7 Guests</option>
+                            <option value="8">8 Guests</option>
+                            <option value="9">9+ Guests</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="booking-notes">Special Requests (Optional)</label>
+                        <textarea id="booking-notes" class="booking-input" rows="3" placeholder="Any dietary restrictions or special occasions?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-large">Reserve Table</button>
+                </form>
+            </section>
+
+            <section class="content-section">
+                <h2>Menu</h2>
+                <div id="menu-container" class="menu-grid"></div>
+            </section>
+
+            <section class="content-section">
+                <h2>Reviews & Ratings</h2>
+                
+                <div id="review-form-container" class="review-form" style="display: none;">
+                    <h3>Write a Review</h3>
+                    <form id="review-form">
+                        <div class="form-group">
+                            <label>Your Rating</label>
+                            <div id="rating-input"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-text">Your Review (optional)</label>
+                            <textarea 
+                                id="review-text" 
+                                rows="4" 
+                                placeholder="Share your experience..."
+                                class="input-text"
+                            ></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+
+                <div id="reviews-container" class="review-list"></div>
+            </section>
+        </div>
+    </main>
+
+    <script src="/js/api-client.js"></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/star-rating.js"></script>
+    <script>
+        initializeHeader('#app-header-mount');
+
+        let currentRestaurantId = null;
+        let ratingComponent = null;
+        let isFavorite = false;
+
+        // Cuisine to background image mapping
+        const cuisineImageMap = {
+            'seafood': '/images/seafood_restaurant_f_38b8b3ff.jpg',
+            'fast food': '/images/restaurant_food_dini_af3284cb.jpg',
+            'italian': '/images/italian_cuisine_past_af4c10ac.jpg',
+            'indian': '/images/indian_curry_spices__37de17ac.jpg',
+            'chinese': '/images/chinese_asian_cuisin_ff1b32d1.jpg',
+            'korean': '/images/korean_bbq_meat_rest_d71b5d47.jpg',
+            'japanese': '/images/japanese_sushi_platt_08a94623.jpg',
+            'mexican': '/images/mexican_tacos_food_c_bfd6d335.jpg',
+            'middle eastern': '/images/middle_eastern_hummu_226ace75.jpg',
+            'bbq': '/images/bbq_grilled_meat_bar_62e30329.jpg',
+            'pakistani': '/images/indian_curry_spices__37de17ac.jpg',
+            'default': '/images/italian_cuisine_past_af4c10ac.jpg'
+        };
+
+        function getCuisineBackgroundImage(cuisineString) {
+            if (!cuisineString) return cuisineImageMap['default'];
+            const cuisines = cuisineString.toLowerCase().split(',');
+            for (let cuisine of cuisines) {
+                const trimmed = cuisine.trim();
+                if (cuisineImageMap[trimmed]) {
+                    return cuisineImageMap[trimmed];
+                }
+            }
+            return cuisineImageMap['default'];
+        }
+
+        async function loadRestaurantDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const restaurantId = params.get('id');
+
+            if (!restaurantId) {
+                alert('No restaurant selected');
+                window.location.href = '/restaurants';
+                return;
+            }
+
+            currentRestaurantId = parseInt(restaurantId);
+
+            try {
+                const restaurant = await api.getRestaurantDetails(restaurantId);
+
+                document.getElementById('restaurant-name').textContent = restaurant.Name || 'Unknown Restaurant';
+                document.getElementById('restaurant-cuisine').textContent = restaurant.Cuisine || 'Various';
+                document.getElementById('restaurant-location').textContent = restaurant.Location || 'Unknown';
+
+                // Set background image based on cuisine
+                const backgroundImage = getCuisineBackgroundImage(restaurant.Cuisine);
+                document.getElementById('restaurant-hero').style.backgroundImage = `url('${backgroundImage}')`;
+
+                if (restaurant.Rating) {
+                    document.getElementById('restaurant-rating').innerHTML = StarRating.display(restaurant.Rating, 20);
+                    document.getElementById('restaurant-rating-count').textContent = `(${restaurant.RatedBy || 0} reviews)`;
+                } else {
+                    document.getElementById('restaurant-rating').innerHTML = StarRating.display(0, 20);
+                    document.getElementById('restaurant-rating-count').textContent = '(No reviews yet)';
+                }
+
+                // Display promotion badges
+                if (restaurant.ActiveDiscount) {
+                    const badgesContainer = document.getElementById('promo-badges-container');
+                    let badgesHTML = `<div class="discount-badge-hero">🎉 ${restaurant.ActiveDiscount}% OFF</div>`;
+                    if (restaurant.PromotionValidFrom && restaurant.PromotionValidTo) {
+                        badgesHTML += `<div class="date-badge-hero">📅 ${restaurant.PromotionValidFrom} - ${restaurant.PromotionValidTo}</div>`;
+                    }
+                    badgesContainer.innerHTML = badgesHTML;
+                    badgesContainer.style.display = 'flex';
+                }
+
+                await loadMenu(restaurantId);
+                await loadReviews(restaurantId);
+                await loadFavoriteStatus();
+
+                if (api.isAuthenticated()) {
+                    document.getElementById('review-form-container').style.display = 'block';
+                    document.getElementById('favorite-btn-hero').style.display = 'inline-flex';
+                    document.getElementById('booking-form').style.display = 'grid';
+                    document.getElementById('booking-login-prompt').style.display = 'none';
+                    initializeReviewForm();
+                    initializeBookingForm();
+                } else {
+                    document.getElementById('booking-form').style.display = 'none';
+                    document.getElementById('booking-login-prompt').style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Error loading restaurant details:', error);
+                alert('Failed to load restaurant details');
+            }
+        }
+
+        async function loadFavoriteStatus() {
+            const userId = api.getCurrentUserId();
+            if (userId) {
+                try {
+                    const favorites = await api.getUserFavorites(userId);
+                    isFavorite = favorites.some(f => f.RestaurantID === currentRestaurantId);
+                    updateFavoriteButton();
+                } catch (error) {
+                    console.error('Error loading favorite status:', error);
+                }
+            }
+        }
+
+        function updateFavoriteButton() {
+            const btn = document.getElementById('favorite-btn-hero');
+            const icon = document.getElementById('favorite-icon');
+            const text = document.getElementById('favorite-text');
+            
+            if (isFavorite) {
+                btn.classList.add('active');
+                icon.textContent = '❤️';
+                text.textContent = 'Remove from Favorites';
+            } else {
+                btn.classList.remove('active');
+                icon.textContent = '🤍';
+                text.textContent = 'Add to Favorites';
+            }
+        }
+
+        async function toggleFavoriteDetail() {
+            const userId = api.getCurrentUserId();
+            if (!userId) {
+                alert('Please login to save favorites');
+                window.location.href = '/login';
+                return;
+            }
+
+            try {
+                if (isFavorite) {
+                    await api.removeFavorite(userId, currentRestaurantId);
+                    isFavorite = false;
+                } else {
+                    await api.addFavorite(userId, currentRestaurantId);
+                    isFavorite = true;
+                }
+                updateFavoriteButton();
+            } catch (error) {
+                console.error('Error toggling favorite:', error);
+                alert('Failed to update favorites');
+            }
+        }
+
+        function initializeBookingForm() {
+            const bookingForm = document.getElementById('booking-form');
+            const dateInput = document.getElementById('booking-date');
+            
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+            
+            bookingForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const userId = api.getCurrentUserId();
+                if (!userId) {
+                    alert('Please login to make a reservation');
+                    window.location.href = '/login';
+                    return;
+                }
+
+                const date = document.getElementById('booking-date').value;
+                const time = document.getElementById('booking-time').value;
+                const guestCount = document.getElementById('guest-count').value;
+                const notes = document.getElementById('booking-notes').value;
+
+                if (!date || !time || !guestCount) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                const reservationTime = `${date} ${time}:00`;
+
+                try {
+                    const result = await api.createReservation({
+                        RestaurantID: currentRestaurantId,
+                        UserID: userId,
+                        GuestCount: parseInt(guestCount),
+                        ReservationTime: reservationTime,
+                        Notes: notes || null
+                    });
+
+                    alert('Reservation created successfully!');
+                    bookingForm.reset();
+                    dateInput.setAttribute('min', today);
+                    window.location.href = '/my-reservations';
+                } catch (error) {
+                    console.error('Error creating reservation:', error);
+                    alert('Failed to create reservation. Please try again.');
+                }
+            });
+        }
+
+        async function loadMenu(restaurantId) {
+            try {
+                const menuItems = await api.getMenuItems(restaurantId);
+                const menuContainer = document.getElementById('menu-container');
+
+                if (menuItems && menuItems.length > 0) {
+                    menuContainer.innerHTML = menuItems.map(item => `
+                        <div class="menu-item">
+                            <h3>${item.ItemName || item.Name}</h3>
+                            <p>${item.Description || ''}</p>
+                            <p class="menu-item-price">Rs. ${item.Price || '0'}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    menuContainer.innerHTML = '<p class="empty-state">Menu not available</p>';
+                }
+            } catch (error) {
+                console.error('Error loading menu:', error);
+                document.getElementById('menu-container').innerHTML = '<p class="empty-state">Failed to load menu</p>';
+            }
+        }
+
+        async function loadReviews(restaurantId) {
+            try {
+                const reviews = await api.getRestaurantReviews(restaurantId);
+                const reviewsContainer = document.getElementById('reviews-container');
+
+                if (reviews && reviews.length > 0) {
+                    reviewsContainer.innerHTML = reviews.map(review => {
+                        const initials = getInitials(review.UserFirstName, review.UserLastName, review.UserEmail);
+                        const date = new Date(review.CreatedAt).toLocaleDateString();
+                        
+                        return `
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <div class="reviewer-info">
+                                        <div class="reviewer-avatar">${initials}</div>
+                                        <div>
+                                            <strong>${review.UserFirstName || ''} ${review.UserLastName || ''}</strong>
+                                            <div>${StarRating.display(review.RatingScore, 18)}</div>
+                                        </div>
+                                    </div>
+                                    <div class="review-date">${date}</div>
+                                </div>
+                                ${review.Review ? `<p class="review-text">${review.Review}</p>` : ''}
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    reviewsContainer.innerHTML = '<p class="empty-state">No reviews yet. Be the first to review!</p>';
+                }
+            } catch (error) {
+                console.error('Error loading reviews:', error);
+                document.getElementById('reviews-container').innerHTML = '<p class="empty-state">Failed to load reviews</p>';
+            }
+        }
+
+        function getInitials(firstName, lastName, email) {
+            if (firstName && lastName) {
+                return (firstName[0] + lastName[0]).toUpperCase();
+            } else if (firstName) {
+                return firstName.substring(0, 2).toUpperCase();
+            } else if (email) {
+                return email.substring(0, 2).toUpperCase();
+            }
+            return 'U';
+        }
+
+        function initializeReviewForm() {
+            ratingComponent = new StarRating({
+                interactive: true,
+                rating: 0,
+                size: 28,
+                onChange: (rating) => {
+                    console.log('Rating selected:', rating);
+                }
+            });
+            ratingComponent.mount('#rating-input');
+
+            document.getElementById('review-form').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const rating = ratingComponent.getRating();
+                if (rating === 0) {
+                    alert('Please select a rating');
+                    return;
+                }
+
+                const reviewText = document.getElementById('review-text').value.trim();
+                const userId = parseInt(api.getCurrentUserId());
+
+                try {
+                    await api.submitReview(userId, parseInt(currentRestaurantId), rating, reviewText);
+                    alert('Review submitted successfully!');
+                    
+                    document.getElementById('review-text').value = '';
+                    ratingComponent.setRating(0);
+                    ratingComponent.mount('#rating-input');
+                    
+                    await loadReviews(currentRestaurantId);
+                    await loadRestaurantDetails();
+                } catch (error) {
+                    console.error('Error submitting review:', error);
+                    alert('Failed to submit review. Please try again.');
+                }
+            });
+        }
+
+        loadRestaurantDetails();
+    </script>
+</body>
+</html>

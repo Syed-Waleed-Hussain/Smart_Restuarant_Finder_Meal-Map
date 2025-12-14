@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP - MealMap</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <style>
+        .verify-otp-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .verify-otp-container h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .verify-otp-container p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .verify-btn {
+            width: 100%;
+            padding: 12px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .verify-btn:hover {
+            background: #45a049;
+        }
+        
+        .verify-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .message {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef5350;
+        }
+        
+        .success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #66bb6a;
+        }
+        
+        .resend-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .resend-link a {
+            color: #4CAF50;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .resend-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="verify-otp-container">
+        <h1>Verify Your Email</h1>
+        <p id="email-display">Enter the OTP sent to your email</p>
+        
+        <div id="error-message" class="message error"></div>
+        <div id="success-message" class="message success"></div>
+        
+        <form id="verify-otp-form">
+            <div class="form-group">
+                <label for="otp">6-Digit OTP Code</label>
+                <input 
+                    type="text" 
+                    id="otp" 
+                    name="otp" 
+                    placeholder="Enter 6-digit OTP"
+                    maxlength="6"
+                    pattern="[0-9]{6}"
+                    required
+                >
+            </div>
+            
+            <button type="submit" class="verify-btn" id="verify-btn">
+                Verify OTP
+            </button>
+        </form>
+        
+        <div class="resend-link">
+            <a href="/login">Back to Login</a>
+        </div>
+    </div>
+
+    <script src="/js/api-client.js"></script>
+    <script>
+        const form = document.getElementById('verify-otp-form');
+        const otpInput = document.getElementById('otp');
+        const verifyBtn = document.getElementById('verify-btn');
+        const errorEl = document.getElementById('error-message');
+        const successEl = document.getElementById('success-message');
+        const emailDisplay = document.getElementById('email-display');
+
+        // Get email from localStorage
+        const email = localStorage.getItem('pendingVerificationEmail');
+        
+        if (!email) {
+            errorEl.textContent = 'No pending verification found. Please sign up first.';
+            errorEl.style.display = 'block';
+            verifyBtn.disabled = true;
+        } else {
+            emailDisplay.textContent = `Enter the OTP sent to ${email}`;
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+            
+            const otp = otpInput.value.trim();
+            
+            if (otp.length !== 6 || !/^\d{6}$/.test(otp)) {
+                errorEl.textContent = 'Please enter a valid 6-digit OTP';
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            verifyBtn.disabled = true;
+            verifyBtn.textContent = 'Verifying...';
+            
+            try {
+                const response = await api.verifyOTP(email, otp);
+                
+                if (response && response.message) {
+                    successEl.textContent = 'Email verified successfully! Redirecting to login...';
+                    successEl.style.display = 'block';
+                    
+                    // Clear pending email
+                    localStorage.removeItem('pendingVerificationEmail');
+                    
+                    // Redirect to login
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 2000);
+                } else {
+                    errorEl.textContent = 'Verification failed. Please try again.';
+                    errorEl.style.display = 'block';
+                    verifyBtn.disabled = false;
+                    verifyBtn.textContent = 'Verify OTP';
+                }
+            } catch (error) {
+                errorEl.textContent = error.message || 'Invalid or expired OTP. Please try again.';
+                errorEl.style.display = 'block';
+                verifyBtn.disabled = false;
+                verifyBtn.textContent = 'Verify OTP';
+                console.error('OTP verification error:', error);
+            }
+        });
+
+        // Auto-focus OTP input
+        otpInput.focus();
+    </script>
+</body>
+</html>

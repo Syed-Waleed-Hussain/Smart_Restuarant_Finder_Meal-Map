@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reservations - MealMap</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .reservation-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--color-border-light);
+            transition: all var(--transition-normal);
+        }
+
+        .reservation-card:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--color-accent);
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: var(--spacing-sm);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .restaurant-name {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--color-text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .reservation-status {
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .status-confirmed {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .reservation-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: var(--spacing-md);
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-icon {
+            font-size: 1.2rem;
+        }
+
+        .detail-text {
+            color: var(--color-text-secondary);
+        }
+
+        .detail-value {
+            color: var(--color-text-primary);
+            font-weight: 500;
+        }
+
+        .reservation-actions {
+            margin-top: var(--spacing-md);
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+
+        .btn-small {
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 2px solid var(--color-border-light);
+        }
+
+        .tab {
+            padding: var(--spacing-sm) var(--spacing-md);
+            background: none;
+            border: none;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: all var(--transition-fast);
+        }
+
+        .tab.active {
+            color: var(--color-accent);
+            border-bottom-color: var(--color-accent);
+        }
+
+        .tab:hover {
+            color: var(--color-accent);
+        }
+    </style>
+</head>
+<body>
+    <div id="app-header"></div>
+
+    <section class="section">
+        <div class="container">
+            <h1 style="margin-bottom: var(--spacing-xl);">My Reservations</h1>
+
+            <div class="tabs">
+                <button class="tab active" data-filter="all">All Reservations</button>
+                <button class="tab" data-filter="Confirmed">Confirmed</button>
+                <button class="tab" data-filter="Pending">Pending</button>
+                <button class="tab" data-filter="Cancelled">Cancelled</button>
+            </div>
+
+            <div id="loading" class="loading" style="display: none;">Loading your reservations...</div>
+            <div id="error" class="alert alert-error" style="display: none;"></div>
+            <div id="reservations-list"></div>
+            <div id="empty-state" class="empty-state" style="display: none;">
+                <h2>No reservations yet</h2>
+                <p>You haven't made any restaurant reservations yet.</p>
+                <a href="/restaurants" class="btn btn-primary" style="margin-top: var(--spacing-md);">Browse Restaurants</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="/js/api-client.js"></script>
+    <script src="/js/header.js"></script>
+    <script>
+        window.appHeader = new AppHeader();
+        window.appHeader.mount();
+
+        let allReservations = [];
+        let currentFilter = 'all';
+
+        async function loadReservations() {
+            const userId = api.getCurrentUserId();
+            
+            if (!userId) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const list = document.getElementById('reservations-list');
+            const emptyState = document.getElementById('empty-state');
+
+            loading.style.display = 'block';
+            error.style.display = 'none';
+            list.innerHTML = '';
+            emptyState.style.display = 'none';
+
+            try {
+                allReservations = await api.getUserReservations(userId);
+                renderReservations();
+            } catch (err) {
+                console.error('Failed to load reservations:', err);
+                error.textContent = 'Failed to load reservations. Please try again.';
+                error.style.display = 'block';
+            } finally {
+                loading.style.display = 'none';
+            }
+        }
+
+        function renderReservations() {
+            const list = document.getElementById('reservations-list');
+            const emptyState = document.getElementById('empty-state');
+
+            let filteredReservations = currentFilter === 'all' 
+                ? allReservations 
+                : allReservations.filter(r => r.Status === currentFilter);
+
+            if (filteredReservations.length === 0) {
+                list.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            list.innerHTML = filteredReservations.map(reservation => {
+                const statusClass = `status-${reservation.Status.toLowerCase()}`;
+                
+                // Parse ReservationTime which contains both date and time
+                const reservationDateTime = new Date(reservation.ReservationTime);
+                const formattedDate = reservationDateTime.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                const formattedTime = reservationDateTime.toLocaleTimeString('en-US', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                // Use GuestCount from API response
+                const partySize = reservation.GuestCount || reservation.PartySize || 0;
+
+                return `
+                    <div class="reservation-card">
+                        <div class="reservation-header">
+                            <div>
+                                <h3 class="restaurant-name">${reservation.RestaurantName || 'Restaurant'}</h3>
+                                <p class="detail-text">Reservation #${reservation.ReservationID}</p>
+                            </div>
+                            <span class="reservation-status ${statusClass}">${reservation.Status}</span>
+                        </div>
+                        
+                        <div class="reservation-details">
+                            <div class="detail-item">
+                                <span class="detail-icon">📅</span>
+                                <div>
+                                    <div class="detail-text">Date</div>
+                                    <div class="detail-value">${formattedDate}</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">🕐</span>
+                                <div>
+                                    <div class="detail-text">Time</div>
+                                    <div class="detail-value">${formattedTime}</div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-icon">👥</span>
+                                <div>
+                                    <div class="detail-text">Party Size</div>
+                                    <div class="detail-value">${partySize} ${partySize === 1 ? 'guest' : 'guests'}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        ${reservation.Notes || reservation.SpecialRequests ? `
+                            <div style="margin-top: var(--spacing-sm); padding-top: var(--spacing-sm); border-top: 1px solid var(--color-border-light);">
+                                <div class="detail-text">Special Requests</div>
+                                <p style="color: var(--color-text-primary); margin-top: 0.25rem;">${reservation.Notes || reservation.SpecialRequests}</p>
+                            </div>
+                        ` : ''}
+
+                        <div class="reservation-actions">
+                            ${reservation.Status === 'Confirmed' ? `
+                                <button onclick="cancelReservation(${reservation.ReservationID})" class="btn btn-outline btn-small">Cancel Reservation</button>
+                            ` : ''}
+                            ${reservation.RestaurantID ? `
+                                <a href="/restaurant-detail?id=${reservation.RestaurantID}" class="btn btn-secondary btn-small">View Restaurant</a>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function cancelReservation(reservationId) {
+            if (!confirm('Are you sure you want to cancel this reservation?')) {
+                return;
+            }
+
+            try {
+                await api.updateReservation(reservationId, { Status: 'Cancelled' });
+                await loadReservations();
+            } catch (err) {
+                console.error('Failed to cancel reservation:', err);
+                alert('Failed to cancel reservation. Please try again.');
+            }
+        }
+
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                currentFilter = tab.dataset.filter;
+                renderReservations();
+            });
+        });
+
+        loadReservations();
+    </script>
+</body>
+</html>

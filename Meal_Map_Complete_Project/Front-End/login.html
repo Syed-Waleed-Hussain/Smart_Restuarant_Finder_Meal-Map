@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MealMap</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            min-height: 100vh;
+        }
+
+        .page-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: var(--spacing-lg);
+        }
+
+        .login-container {
+            background: var(--color-surface);
+            padding: var(--spacing-xl);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            text-align: center;
+            color: var(--color-primary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        h2 {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+            color: var(--color-text-primary);
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            font-family: var(--font-body);
+        }
+
+        input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: var(--font-body);
+            transition: border-color var(--transition-fast);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: all var(--transition-normal);
+        }
+
+        .btn:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .divider {
+            text-align: center;
+            margin: var(--spacing-md) 0;
+            color: var(--color-text-muted);
+            font-family: var(--font-body);
+        }
+
+        .link {
+            text-align: center;
+            margin-top: var(--spacing-sm);
+        }
+
+        .link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-family: var(--font-body);
+            transition: color var(--transition-fast);
+        }
+
+        .link a:hover {
+            color: var(--color-accent);
+        }
+
+        .error {
+            background-color: var(--color-error-bg);
+            border: 1px solid var(--color-error);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            color: var(--color-error);
+            margin-bottom: var(--spacing-md);
+            display: none;
+            font-family: var(--font-body);
+        }
+
+        .success {
+            background-color: var(--color-success-bg);
+            border: 1px solid var(--color-success);
+            padding: var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            color: var(--color-success);
+            margin-bottom: var(--spacing-md);
+            display: none;
+            font-family: var(--font-body);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app-header-mount"></div>
+
+    <div class="page-container">
+        <div class="login-container">
+            <div class="logo">🍽️ MealMap</div>
+            <h2>Welcome Back</h2>
+
+            <div id="errorMessage" class="error"></div>
+            <div id="successMessage" class="success"></div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn">Login</button>
+            </form>
+
+            <div class="divider">or</div>
+
+            <div class="link">
+                <a href="/signup">Don't have an account? Sign up</a>
+            </div>
+
+            <div class="link">
+                <a href="/restaurants">Continue as guest</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api-client.js"></script>
+    <script>
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('errorMessage');
+            const successEl = document.getElementById('successMessage');
+
+            errorEl.style.display = 'none';
+            successEl.style.display = 'none';
+
+            try {
+                const response = await api.login(email, password);
+
+                if (response && response.user) {
+                    api.saveAuth(response.user, response.user.UserID);
+
+                    successEl.textContent = 'Login successful! Redirecting...';
+                    successEl.style.display = 'block';
+
+                    setTimeout(() => {
+                        window.location.href = '/restaurants';
+                    }, 1000);
+                } else {
+                    errorEl.textContent = 'Invalid credentials';
+                    errorEl.style.display = 'block';
+                }
+            } catch (error) {
+                errorEl.textContent = `Login failed: ${error.message}`;
+                errorEl.style.display = 'block';
+                console.error('Login error:', error);
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorites - MealMap</title>
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .page-hero {
+            background-color: var(--color-cream);
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        .page-hero h1 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .page-hero p {
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section {
+            padding: var(--spacing-2xl) 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-lg);
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .favorite-card {
+            background: var(--color-surface);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-border-light);
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .favorite-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: transparent;
+        }
+
+        .favorite-image {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e8e6e1 0%, #f0eeea 100%);
+        }
+
+        .favorite-info {
+            padding: 1.5rem;
+        }
+
+        .favorite-name {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+            color: var(--color-text-primary);
+        }
+
+        .favorite-details {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+
+        .remove-btn {
+            background-color: var(--color-error);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            margin-top: var(--spacing-sm);
+            font-family: var(--font-body);
+            font-weight: 500;
+            transition: all var(--transition-normal);
+        }
+
+        .remove-btn:hover {
+            background-color: #a22;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(204, 51, 51, 0.3);
+        }
+
+        .loading {
+            text-align: center;
+            padding: var(--spacing-xl);
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: var(--spacing-2xl) var(--spacing-lg);
+            grid-column: 1 / -1;
+        }
+
+        .empty-state h2 {
+            font-family: var(--font-heading);
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .empty-state p {
+            color: var(--color-text-muted);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .empty-state a {
+            display: inline-block;
+            margin-top: var(--spacing-sm);
+            padding: 0.875rem 2rem;
+            background-color: var(--color-accent);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            transition: all var(--transition-normal);
+        }
+
+        .empty-state a:hover {
+            background-color: var(--color-accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        .error {
+            background-color: var(--color-error-bg);
+            border: 1px solid var(--color-error);
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--radius-md);
+            color: var(--color-error);
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+</head>
+<body>
+    <div id="app-header"></div>
+    
+    <div class="page-hero">
+        <div class="container">
+            <h1>❤️ My Favorite Restaurants</h1>
+            <p>Your saved restaurants in one place</p>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="container">
+            <div id="errorContainer"></div>
+            <div id="loadingContainer" class="loading" style="display: none;">
+                Loading your favorites...
+            </div>
+            <div id="favoritesGrid" class="favorites-grid"></div>
+        </div>
+    </section>
+
+    <script src="/js/api-client.js"></script>
+    <script src="/js/header.js"></script>
+    <script>
+        window.appHeader = new AppHeader();
+        window.appHeader.mount();
+
+        function getCuisineImage(cuisine) {
+            if (!cuisine) return '/images/cuisine/restaurant_food_dini_af3284cb.jpg';
+            
+            const cuisineLower = cuisine.toLowerCase();
+            const cuisineMap = {
+                'italian': '/images/cuisine/italian_pasta_dish_w_d3d5d42b.jpg',
+                'chinese': '/images/cuisine/chinese_food_dim_sum_8454327e.jpg',
+                'indian': '/images/cuisine/indian_curry_spices__32155dec.jpg',
+                'middle eastern': '/images/cuisine/middle_eastern_hummu_226ace75.jpg',
+                'bbq': '/images/cuisine/bbq_grilled_meat_bar_62e30329.jpg',
+                'korean': '/images/cuisine/korean_bibimbap_food_44f99399.jpg',
+                'japanese': '/images/cuisine/japanese_sushi_platt_08a94623.jpg',
+                'mexican': '/images/cuisine/mexican_tacos_food_c_bfd6d335.jpg'
+            };
+
+            for (const [key, value] of Object.entries(cuisineMap)) {
+                if (cuisineLower.includes(key)) {
+                    return value;
+                }
+            }
+            
+            return '/images/cuisine/restaurant_food_dini_af3284cb.jpg';
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!window.api) {
+                console.error('API client not loaded');
+                document.getElementById('favoritesGrid').innerHTML = `
+                    <div class="empty-state">
+                        <h2>Error loading page</h2>
+                        <p>Please refresh the page</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const userId = window.api.getCurrentUserId();
+            if (!userId) {
+                document.getElementById('favoritesGrid').innerHTML = `
+                    <div class="empty-state">
+                        <h2>Please login to view your favorites</h2>
+                        <a href="/login.html">Login Now</a>
+                    </div>
+                `;
+                return;
+            }
+
+            loadFavorites();
+        });
+
+        async function loadFavorites() {
+            const loadingEl = document.getElementById('loadingContainer');
+            const gridEl = document.getElementById('favoritesGrid');
+            const errorEl = document.getElementById('errorContainer');
+
+            if (!window.api) {
+                errorEl.innerHTML = `<div class="error">API client not loaded. Please refresh the page.</div>`;
+                return;
+            }
+
+            try {
+                loadingEl.style.display = 'block';
+                gridEl.innerHTML = '';
+                errorEl.innerHTML = '';
+
+                const userId = window.api.getCurrentUserId();
+                if (!userId) {
+                    gridEl.innerHTML = `<div class="empty-state"><h2>Please login to view favorites</h2></div>`;
+                    loadingEl.style.display = 'none';
+                    return;
+                }
+
+                const favorites = await window.api.getUserFavorites(userId);
+
+                loadingEl.style.display = 'none';
+
+                if (!favorites || favorites.length === 0) {
+                    gridEl.innerHTML = `
+                        <div class="empty-state">
+                            <h2>No favorites yet</h2>
+                            <p>Start exploring and save your favorite restaurants!</p>
+                            <a href="/restaurants.html">Browse Restaurants</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                renderFavorites(favorites);
+            } catch (error) {
+                loadingEl.style.display = 'none';
+                errorEl.innerHTML = `<div class="error">Error loading favorites: ${error.message}</div>`;
+                console.error('Error:', error);
+            }
+        }
+
+        function renderFavorites(favorites) {
+            const gridEl = document.getElementById('favoritesGrid');
+            const userId = window.api.getCurrentUserId();
+            
+            if (!userId) {
+                gridEl.innerHTML = `<div class="empty-state"><h2>Please login to view favorites</h2></div>`;
+                return;
+            }
+            
+            gridEl.innerHTML = favorites.map(fav => {
+                const cuisineImage = getCuisineImage(fav.cuisine);
+                const rating = fav.AvgRating || 0;
+                const reviewCount = fav.RatedBy || 0;
+                
+                return `
+                    <div class="favorite-card" onclick="window.location.href='/restaurant-detail?id=${fav.RestaurantID}'">
+                        <img src="${cuisineImage}" alt="${fav.cuisine || 'Restaurant'}" class="favorite-image" />
+                        <div class="favorite-info">
+                            <h3 class="favorite-name">${fav.restaurant_name || 'Unknown'}</h3>
+                            <p class="favorite-details">${fav.cuisine || 'Cuisine not specified'}</p>
+                            <p class="favorite-details">📍 ${fav.location || 'Location not specified'}</p>
+                            ${rating > 0 ? `<p class="favorite-details">⭐ ${rating.toFixed(1)} (${reviewCount} reviews)</p>` : ''}
+                            <button class="remove-btn" onclick="event.stopPropagation(); removeFavorite(${userId}, ${fav.RestaurantID || fav.restaurant_id})">Remove from Favorites</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        async function removeFavorite(userId, restaurantId) {
+            if (!confirm('Remove this restaurant from favorites?')) {
+                return;
+            }
+
+            if (!window.api) {
+                alert('Please wait for the page to fully load');
+                return;
+            }
+
+            try {
+                await window.api.removeFavorite(userId, restaurantId);
+                loadFavorites();
+            } catch (error) {
+                alert(`Error removing favorite: ${error.message}`);
+                console.error('Remove favorite error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
