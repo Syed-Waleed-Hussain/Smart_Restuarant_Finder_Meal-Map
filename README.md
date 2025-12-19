@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="[banner.png](https://pngtree.com/so/food-map)" width="100%" alt="Meal-Map Banner"/>
+  <img src="Mealmap.jpg" width="100%" alt="Meal-Map Banner"/>
 </p>
 
 <h1 align="center">🍽️ Meal-Map — Smart Restaurant Management System (SRMS)</h1>
