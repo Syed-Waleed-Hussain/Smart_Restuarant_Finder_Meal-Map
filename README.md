@@ -2,7 +2,7 @@
 
 </p>
 
-<h1 align="center">🍽️ Meal-Map — Smart Restaurant Management System (SRMS)</h1>
+<h1 align="center">🍽️ Meal-Map — Smart Restaurant Finder + Management System (SRMS)</h1>
 
 <p align="center">
   Intelligent restaurant discovery, reservation, and management system powered by a Knowledge-Based Recommender System (KB-RS).
