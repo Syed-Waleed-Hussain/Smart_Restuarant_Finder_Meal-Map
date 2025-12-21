@@ -1,0 +1,182 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.2.1">
+  <diagram id="OMO5PN2SPZpU0xWwMMoN" name="Page-2">
+    <mxGraphModel dx="1965" dy="1128" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-24" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="User" vertex="1">
+          <mxGeometry height="1197" width="150" x="20" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-25" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="&lt;&lt;Boundary&gt;&gt; SearchUI" vertex="1">
+          <mxGeometry height="1197" width="198" x="374" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-26" parent="rTXXjjNwyQjy_64IDYeP-25" style="points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="" vertex="1">
+          <mxGeometry height="423" width="10" x="94" y="107" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-27" parent="rTXXjjNwyQjy_64IDYeP-25" style="points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="" vertex="1">
+          <mxGeometry height="218" width="10" x="94" y="572" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-28" parent="rTXXjjNwyQjy_64IDYeP-25" style="points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="" vertex="1">
+          <mxGeometry height="270" width="10" x="94" y="832" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-29" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="&lt;&lt;Control&gt;&gt; SearchController" vertex="1">
+          <mxGeometry height="1197" width="239" x="622" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-30" parent="rTXXjjNwyQjy_64IDYeP-29" style="points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="" vertex="1">
+          <mxGeometry height="309" width="10" x="115" y="159" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-31" parent="rTXXjjNwyQjy_64IDYeP-29" style="points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="" vertex="1">
+          <mxGeometry height="156" width="10" x="115" y="624" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-32" parent="rTXXjjNwyQjy_64IDYeP-29" style="points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="" vertex="1">
+          <mxGeometry height="156" width="10" x="115" y="884" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-33" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="&lt;&lt;Entity&gt;&gt; RestaurantDS" vertex="1">
+          <mxGeometry height="1197" width="203" x="1055" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-34" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="&lt;&lt;Control&gt;&gt; Recommender" vertex="1">
+          <mxGeometry height="1197" width="224" x="1308" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-35" parent="rTXXjjNwyQjy_64IDYeP-34" style="points=[];perimeter=orthogonalPerimeter;outlineConnect=0;targetShapes=umlLifeline;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="" vertex="1">
+          <mxGeometry height="91" width="10" x="107" y="315" as="geometry" />
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-36" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-24" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-26" value="1. Explore Restaurants">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="293" y="457" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-37" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-26" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-30" value="2. initiateSearch()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="618" y="509" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-38" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-30" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-33" value="3. getInitialData(Cuisine, Range, Rating, Location)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="561" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-39" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-33" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-30" value="4. return FilteredData">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="963" y="613" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-40" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-30" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-35" value="5. getRecommendations(FilteredData)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1091" y="665" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-41" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-34" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-30" value="6. return TopRecommendedList">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1092" y="766" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-42" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-30" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-26" value="7. displayResults(List)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="619" y="818" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-43" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-26" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-24" value="8. View Recommended List">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="294" y="870" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-44" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-24" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-27" value="9. selectRestaurant(DetailsRequest)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="293" y="922" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-45" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-27" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-31" value="10. viewDetails(ID)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="618" y="974" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-46" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-31" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-33" value="11. getMenuAndReviews(ID)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="1026" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-47" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-33" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-31" value="12. return Details">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="963" y="1078" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-48" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-31" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-27" value="13. displayDetails()">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="619" y="1130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-49" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-24" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-28" value="14. requestReservation(Date, Guests, Notes)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="293" y="1182" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-50" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-28" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-32" value="15. submitReservation(Data)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="618" y="1234" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-51" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-32" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-33" value="16. createReservation(Data)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="960" y="1286" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-52" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-33" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-32" value="17. return Reservation ID">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="963" y="1338" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-53" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-32" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-28" value="18. displayStatus(Pending)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="619" y="1390" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-54" edge="1" parent="1" source="rTXXjjNwyQjy_64IDYeP-28" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;labelBackgroundColor=none;fontColor=default;strokeColor=#A8201A;" target="rTXXjjNwyQjy_64IDYeP-24" value="19. Reservation Status: Pending">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="294" y="1442" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rTXXjjNwyQjy_64IDYeP-55" parent="1" style="labelBackgroundColor=none;fillColor=#FAE5C7;strokeColor=#0F8B8D;fontColor=#143642;" value="KB RS Logic (Constraints Approach)" vertex="1">
+          <mxGeometry height="49" width="269" x="1286" y="685" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

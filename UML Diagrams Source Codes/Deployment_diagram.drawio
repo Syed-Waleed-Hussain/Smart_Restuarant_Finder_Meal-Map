@@ -1,0 +1,71 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36" version="29.2.3">
+  <diagram id="fAyULAcFl7MkfdkJDQgW" name="Fixed Deployment Diagram">
+    <mxGraphModel dx="1426" dy="785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="DswQnrXTroUV7vaqIgWH-1" parent="1" style="verticalAlign=top;align=center;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=0;html=1;whiteSpace=wrap;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;&lt;Device&gt;&gt;&#xa;&lt;b&gt;User Smartphone / PC&lt;/b&gt;" vertex="1">
+          <mxGeometry height="180" width="200" x="60" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-2" parent="DswQnrXTroUV7vaqIgWH-1" style="shape=rect;html=1;whiteSpace=wrap;align=center;verticalAlign=top;dashed=1;dashPattern=3 3;fillColor=#ffffff;strokeColor=#6c8ebf;" value="&lt;&lt;Execution Env&gt;&gt;&#xa;Android / iOS / Browser" vertex="1">
+          <mxGeometry height="110" width="160" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-3" parent="DswQnrXTroUV7vaqIgWH-2" style="shape=module;jettyWidth=8;jettyHeight=4;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;&lt;Artifact&gt;&gt;&#xa;&lt;b&gt;MapMeal Client App&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="20" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-4" parent="1" style="verticalAlign=top;align=center;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=0;html=1;whiteSpace=wrap;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;&lt;Device&gt;&gt;&#xa;&lt;b&gt;Application Server&lt;/b&gt;" vertex="1">
+          <mxGeometry height="260" width="240" x="400" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-5" parent="DswQnrXTroUV7vaqIgWH-4" style="shape=rect;html=1;whiteSpace=wrap;align=center;verticalAlign=top;dashed=1;dashPattern=3 3;fillColor=#ffffff;strokeColor=#82b366;" value="&lt;&lt;Execution Env&gt;&gt;&#xa;Web Server (e.g. Tomcat/Node)" vertex="1">
+          <mxGeometry height="190" width="200" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-6" parent="DswQnrXTroUV7vaqIgWH-5" style="shape=module;jettyWidth=8;jettyHeight=4;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;&lt;Artifact&gt;&gt;&#xa;&lt;b&gt;MapMeal Backend API&lt;/b&gt;" vertex="1">
+          <mxGeometry height="60" width="140" x="30" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-7" parent="DswQnrXTroUV7vaqIgWH-5" style="shape=module;jettyWidth=8;jettyHeight=4;html=1;whiteSpace=wrap;align=center;verticalAlign=middle;fillColor=#e1d5e7;strokeColor=#9673a6;" value="&lt;&lt;Artifact&gt;&gt;&#xa;&lt;b&gt;KB Recommender&lt;/b&gt;" vertex="1">
+          <mxGeometry height="50" width="140" x="30" y="115" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-8" parent="1" style="verticalAlign=top;align=center;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=0;html=1;whiteSpace=wrap;fillColor=#ffe6cc;strokeColor=#d79b00;" value="&lt;&lt;Device&gt;&gt;&#xa;&lt;b&gt;Database Server&lt;/b&gt;" vertex="1">
+          <mxGeometry height="220" width="200" x="720" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-9" parent="DswQnrXTroUV7vaqIgWH-8" style="shape=rect;html=1;whiteSpace=wrap;align=center;verticalAlign=top;dashed=1;dashPattern=3 3;fillColor=#ffffff;strokeColor=#d79b00;" value="&lt;&lt;Execution Env&gt;&gt;&#xa;MySQL DBMS" vertex="1">
+          <mxGeometry height="150" width="160" x="20" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-10" parent="DswQnrXTroUV7vaqIgWH-9" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;&lt;Artifact&gt;&gt;&#xa;&lt;b&gt;MapMeal Schema&lt;/b&gt;" vertex="1">
+          <mxGeometry height="80" width="80" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-11" parent="1" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="" vertex="1">
+          <mxGeometry height="220" width="340" x="350" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-12" parent="1" style="verticalAlign=top;align=center;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=0;html=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#000000;" value="&lt;&lt;Server&gt;&gt;&#xa;&lt;b&gt;Google Maps API&lt;/b&gt;" vertex="1">
+          <mxGeometry height="120" width="120" x="390" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-13" parent="1" style="verticalAlign=top;align=center;spacingTop=8;spacingLeft=2;spacingRight=12;shape=cube;size=10;direction=south;fontStyle=0;html=1;whiteSpace=wrap;fillColor=#ffffff;strokeColor=#000000;" value="&lt;&lt;Server&gt;&gt;&#xa;&lt;b&gt;SMS Gateway&lt;/b&gt;" vertex="1">
+          <mxGeometry height="120" width="120" x="540" y="600" as="geometry" />
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-14" edge="1" parent="1" source="DswQnrXTroUV7vaqIgWH-3" style="endArrow=none;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" target="DswQnrXTroUV7vaqIgWH-5" value="HTTPS / REST / JSON">
+          <mxGeometry height="50" relative="1" width="50" x="0.0972" y="33" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-15" edge="1" parent="1" source="DswQnrXTroUV7vaqIgWH-5" style="endArrow=none;html=1;" target="DswQnrXTroUV7vaqIgWH-8" value="JDBC / TCP:3306">
+          <mxGeometry height="50" relative="1" width="50" x="0.4264" y="26" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-16" edge="1" parent="1" source="DswQnrXTroUV7vaqIgWH-5" style="endArrow=none;html=1;" target="DswQnrXTroUV7vaqIgWH-12" value="HTTPS">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="370" y="280" as="sourcePoint" />
+            <mxPoint x="480" y="675" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="DswQnrXTroUV7vaqIgWH-17" edge="1" parent="1" source="DswQnrXTroUV7vaqIgWH-5" style="endArrow=none;html=1;" target="DswQnrXTroUV7vaqIgWH-13" value="HTTPS (REST)">
+          <mxGeometry height="50" relative="1" width="50" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
