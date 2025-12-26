@@ -39,6 +39,7 @@ def recommend_restaurants():
         for r in all_restaurants:
             r["Distance_km"] = None
 
+    
     # Sort: first by distance if available, else by rating descending
     def sort_key(r):
         if r["Distance_km"] is not None:
