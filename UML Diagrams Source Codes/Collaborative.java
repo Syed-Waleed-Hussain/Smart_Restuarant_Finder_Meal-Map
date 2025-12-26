@@ -12,7 +12,6 @@ public class ReservationSystemModelCreator {
 
     // UML Factory instance
     private static final UMLFactory FACTORY = UMLFactory.eINSTANCE;
-
     public static void createAndSaveModel(URI fileURI) {
         // 1. Setup Resource Set
         ResourceSet resourceSet = new ResourceSetImpl();
@@ -145,4 +144,5 @@ public class ReservationSystemModelCreator {
         URI fileURI = URI.createFileURI("C:/UML_Projects/ReservationUpdateDiagram.uml"); 
         createAndSaveModel(fileURI);
     }
+
 }
