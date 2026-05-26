@@ -11,6 +11,8 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="/css/shared-styles.css">
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body {
             background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
@@ -142,6 +144,95 @@
             display: none;
             font-family: var(--font-body);
         }
+
+        /* Role Selector Tabs */
+        .role-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: var(--spacing-lg);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid var(--color-border);
+        }
+
+        .role-tab {
+            flex: 1;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 0.9rem;
+            background: var(--color-surface);
+            color: var(--color-text-secondary);
+            border: none;
+            transition: all var(--transition-fast);
+            border-right: 1px solid var(--color-border);
+        }
+
+        .role-tab:last-child {
+            border-right: none;
+        }
+
+        .role-tab:hover {
+            background: var(--color-cream);
+        }
+
+        .role-tab.active {
+            color: white;
+            font-weight: 600;
+        }
+
+        .role-tab.active[data-role="user"] {
+            background: var(--color-primary);
+        }
+
+        .role-tab.active[data-role="owner"] {
+            background: #3d5a3a;
+        }
+
+        .role-tab.active[data-role="admin"] {
+            background: #cc3333;
+        }
+
+        .role-hint {
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            margin-top: -0.75rem;
+            margin-bottom: var(--spacing-md);
+            min-height: 1.2rem;
+        }
+
+        /* Google Sign-In Button */
+        .google-btn-wrap {
+            display: flex;
+            justify-content: center;
+            margin: var(--spacing-sm) 0;
+        }
+
+        /* Forgot Password link */
+        .forgot-link {
+            text-align: right;
+            margin-top: -0.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .forgot-link a {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+        }
+
+        .forgot-link a:hover {
+            color: var(--color-accent);
+        }
+
+        /* Hidden views */
+        .view { display: none; }
+        .view.active { display: block; }
     </style>
 </head>
 
@@ -156,66 +247,237 @@
             <div id="errorMessage" class="error"></div>
             <div id="successMessage" class="success"></div>
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required placeholder="your@email.com">
+            <!-- ── VIEW 1: Login ── -->
+            <div id="view-login" class="view active">
+                <!-- Role Selector Tabs -->
+                <div class="role-tabs">
+                    <button type="button" class="role-tab active" data-role="user" onclick="selectRole('user')">👤 User</button>
+                    <button type="button" class="role-tab" data-role="owner" onclick="selectRole('owner')">🏪 Owner</button>
+                    <button type="button" class="role-tab" data-role="admin" onclick="selectRole('admin')">🛡️ Admin</button>
+                </div>
+                <div class="role-hint" id="roleHint">Login as a regular user</div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required placeholder="••••••••">
+                    </div>
+
+                    <div class="forgot-link">
+                        <a onclick="showView('view-forgot-email')">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn">Login</button>
+                </form>
+
+                <div class="divider">or</div>
+
+                <!-- Google Sign-In -->
+                <div class="google-btn-wrap">
+                    <div id="g_id_onload"
+                         data-client_id="767442629363-1umlubvov84jbrntlr92em33uojh779s.apps.googleusercontent.com"
+                         data-callback="handleGoogleLogin"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-size="large"
+                         data-theme="outline"
+                         data-text="signin_with"
+                         data-shape="rectangular"
+                         data-logo_alignment="left">
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required placeholder="••••••••">
+                <div class="divider">or</div>
+
+                <div class="link">
+                    <a href="/signup">Don't have an account? Sign up</a>
                 </div>
 
-                <button type="submit" class="btn">Login</button>
-            </form>
-
-            <div class="divider">or</div>
-
-            <div class="link">
-                <a href="/signup">Don't have an account? Sign up</a>
+                <div class="link">
+                    <a href="/restaurants">Continue as guest</a>
+                </div>
             </div>
 
-            <div class="link">
-                <a href="/restaurants">Continue as guest</a>
+            <!-- ── VIEW 2: Forgot Password — Enter Email ── -->
+            <div id="view-forgot-email" class="view">
+                <h2 style="font-size:1.5rem; margin-bottom:var(--spacing-md);">🔑 Reset Password</h2>
+                <p style="color:var(--color-text-secondary); margin-bottom:var(--spacing-md); font-size:0.95rem;">Enter your account email and we'll send a 6-digit reset code.</p>
+
+                <form id="forgotEmailForm">
+                    <div class="form-group">
+                        <label for="fp-email">Email</label>
+                        <input type="email" id="fp-email" required placeholder="your@email.com">
+                    </div>
+                    <button type="submit" class="btn">Send Reset Code</button>
+                </form>
+
+                <div class="link" style="margin-top:var(--spacing-md);">
+                    <a onclick="showView('view-login')">← Back to Login</a>
+                </div>
+            </div>
+
+            <!-- ── VIEW 3: Forgot Password — Enter OTP + New Password ── -->
+            <div id="view-forgot-reset" class="view">
+                <h2 style="font-size:1.5rem; margin-bottom:var(--spacing-md);">🔒 Set New Password</h2>
+                <p style="color:var(--color-text-secondary); margin-bottom:var(--spacing-md); font-size:0.95rem;">Enter the code sent to your email and choose a new password.</p>
+
+                <form id="forgotResetForm">
+                    <div class="form-group">
+                        <label for="fp-otp">6-Digit Code</label>
+                        <input type="text" id="fp-otp" required placeholder="123456" maxlength="6" pattern="\d{6}">
+                    </div>
+                    <div class="form-group">
+                        <label for="fp-newpwd">New Password</label>
+                        <input type="password" id="fp-newpwd" required placeholder="••••••••" minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label for="fp-confirmpwd">Confirm New Password</label>
+                        <input type="password" id="fp-confirmpwd" required placeholder="••••••••" minlength="6">
+                    </div>
+                    <button type="submit" class="btn">Reset Password</button>
+                </form>
+
+                <div class="link" style="margin-top:var(--spacing-md);">
+                    <a onclick="showView('view-forgot-email')">← Resend Code</a>
+                </div>
             </div>
         </div>
     </div>
 
     <script src="/js/api-client.js"></script>
     <script>
+        /* ── Shared state ── */
+        let selectedRole = 'user';
+        let forgotEmail = '';
 
+        const roleHints = {
+            user:  'Login as a regular user',
+            owner: 'Login as a restaurant owner / vendor',
+            admin: 'Login as a system administrator'
+        };
+
+        /* ── View management ── */
+        function showView(id) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.getElementById('errorMessage').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+
+        /* ── Role tabs ── */
+        function selectRole(role) {
+            selectedRole = role;
+            document.querySelectorAll('.role-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.role-tab[data-role="${role}"]`).classList.add('active');
+            document.getElementById('roleHint').textContent = roleHints[role];
+        }
+
+        /* ── Shared helpers ── */
+        const errorEl   = () => document.getElementById('errorMessage');
+        const successEl = () => document.getElementById('successMessage');
+
+        function showError(msg) {
+            errorEl().textContent = msg;
+            errorEl().style.display = 'block';
+            successEl().style.display = 'none';
+        }
+
+        function showSuccess(msg) {
+            successEl().textContent = msg;
+            successEl().style.display = 'block';
+            errorEl().style.display = 'none';
+        }
+
+        function doRedirect(role) {
+            const map = { user: '/restaurants', owner: '/owner-dashboard', admin: '/admin-dashboard' };
+            setTimeout(() => { window.location.href = map[role] || '/restaurants'; }, 800);
+        }
+
+        function handleAuthResponse(response, roleOverride) {
+            if (!(response && response.user)) {
+                showError('Invalid credentials');
+                return;
+            }
+            const userRole = (response.user.Role || response.user.role || '').toLowerCase();
+            if (roleOverride) {
+                const allowed = { user: ['user'], owner: ['owner', 'vendor'], admin: ['admin'] };
+                if (!allowed[roleOverride].includes(userRole)) {
+                    showError(`Access denied. Your account role is "${userRole}", not "${roleOverride}".`);
+                    return;
+                }
+            }
+            api.saveAuth(response.user, response.user.UserID || response.user.Id, response.token);
+            showSuccess('Login successful! Redirecting...');
+            doRedirect(roleOverride || userRole);
+        }
+
+        /* ── Login form ── */
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            const email = document.getElementById('email').value;
+            const email    = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const errorEl = document.getElementById('errorMessage');
-            const successEl = document.getElementById('successMessage');
-
-            errorEl.style.display = 'none';
-            successEl.style.display = 'none';
-
+            errorEl().style.display = 'none';
+            successEl().style.display = 'none';
             try {
                 const response = await api.login(email, password);
+                handleAuthResponse(response, selectedRole);
+            } catch (err) {
+                showError(`Login failed: ${err.message}`);
+            }
+        });
 
-                if (response && response.user) {
-                    api.saveAuth(response.user, response.user.UserID);
+        /* ── Google Sign-In callback ── */
+        async function handleGoogleLogin(googleResponse) {
+            errorEl().style.display = 'none';
+            successEl().style.display = 'none';
+            try {
+                const response = await api.googleLogin(googleResponse.credential);
+                handleAuthResponse(response, null); // role is determined by the DB
+            } catch (err) {
+                showError(`Google login failed: ${err.message}`);
+            }
+        }
 
-                    successEl.textContent = 'Login successful! Redirecting...';
-                    successEl.style.display = 'block';
+        /* ── Forgot Password: Step 1 — Send OTP ── */
+        document.getElementById('forgotEmailForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            forgotEmail = document.getElementById('fp-email').value.trim().toLowerCase();
+            errorEl().style.display = 'none';
+            successEl().style.display = 'none';
+            try {
+                await api.forgotPasswordRequest(forgotEmail);
+                showSuccess('Reset code sent! Check your inbox.');
+                setTimeout(() => showView('view-forgot-reset'), 1200);
+            } catch (err) {
+                showError(`Failed: ${err.message}`);
+            }
+        });
 
-                    setTimeout(() => {
-                        window.location.href = '/restaurants';
-                    }, 1000);
-                } else {
-                    errorEl.textContent = 'Invalid credentials';
-                    errorEl.style.display = 'block';
-                }
-            } catch (error) {
-                errorEl.textContent = `Login failed: ${error.message}`;
-                errorEl.style.display = 'block';
-                console.error('Login error:', error);
+        /* ── Forgot Password: Step 2 — Reset ── */
+        document.getElementById('forgotResetForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const otp     = document.getElementById('fp-otp').value.trim();
+            const newPwd  = document.getElementById('fp-newpwd').value;
+            const confPwd = document.getElementById('fp-confirmpwd').value;
+
+            if (newPwd !== confPwd) { showError('Passwords do not match.'); return; }
+            if (newPwd.length < 6)  { showError('Password must be at least 6 characters.'); return; }
+
+            errorEl().style.display = 'none';
+            successEl().style.display = 'none';
+            try {
+                await api.forgotPasswordReset(forgotEmail, otp, newPwd);
+                showSuccess('Password reset! Redirecting to login...');
+                setTimeout(() => showView('view-login'), 1500);
+            } catch (err) {
+                showError(`Reset failed: ${err.message}`);
             }
         });
     </script>
