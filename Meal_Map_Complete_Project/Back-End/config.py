@@ -1,24 +1,17 @@
 import mysql.connector
 from mysql.connector import pooling
 import os
+from dotenv import load_dotenv
 
-# DB_HOST = os.environ.get("MYSQL_HOST", "localhost")
-# DB_PORT = int(os.environ.get("MYSQL_PORT") or 3306)
-# DB_USER = os.environ.get("MYSQL_USER", "root")
-# DB_PASS = os.environ.get("MYSQL_PASSWORD", "")
-# DB_NAME = os.environ.get("MYSQL_DATABASE", "smart_restaurant_finder")
+# Load environment variables from .env file
+load_dotenv()
 
-# DB_HOST = os.environ.get("MYSQL_HOST", "centerbeam.proxy.rlwy.net")
-# DB_PORT = int(os.environ.get("MYSQL_PORT") or 52823)
-# DB_USER = os.environ.get("MYSQL_USER", "root")
-# DB_PASS = os.environ.get("MYSQL_PASSWORD", "VHPHFqjLyBdDZyfWATgXzPmEllhpRTOQ")
-# DB_NAME = os.environ.get("MYSQL_DATABASE", "railway")
-
-DB_HOST = os.environ.get("MYSQL_HOST", "mysql-8a37a39-smart-restaurant-finder.i.aivencloud.com")
-DB_PORT = int(os.environ.get("MYSQL_PORT") or 19276)
-DB_USER = os.environ.get("MYSQL_USER", "avnadmin")
-DB_PASS = os.environ.get("MYSQL_PASSWORD", "AVNS_Jn7a8UjgB1kxMPJPec8")
-DB_NAME = os.environ.get("MYSQL_DATABASE", "defaultdb")
+DB_HOST = os.environ.get("DB_HOST", "localhost")
+DB_PORT = int(os.environ.get("DB_PORT", 3306))
+DB_USER = os.environ.get("DB_USER", "root")
+DB_PASS = os.environ.get("DB_PASSWORD", "")
+DB_NAME = os.environ.get("DB_NAME", "smart_restaurant_finder")
+JWT_SECRET = os.environ.get("JWT_SECRET", "fallback_secret_key_for_dev_only")
 
 CONN_PARAMS = dict(
     host=DB_HOST,
@@ -49,8 +42,18 @@ except mysql.connector.Error as err:
 
 
 def get_db():
-    """Return a connection from the pool when available, else fallback to a new connection."""
+    """Return a connection from the pool when available, else fallback to a new connection.
+    Disables ONLY_FULL_GROUP_BY at the session level so legacy GROUP BY queries work on TiDB."""
     if pool:
-        return pool.get_connection()
-    # fallback: create a direct connection
-    return mysql.connector.connect(**CONN_PARAMS)
+        conn = pool.get_connection()
+    else:
+        conn = mysql.connector.connect(**CONN_PARAMS)
+
+    try:
+        cur = conn.cursor()
+        cur.execute("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));")
+        cur.close()
+    except mysql.connector.Error:
+        pass  # Non-fatal: if it fails the query may still work
+
+    return conn
