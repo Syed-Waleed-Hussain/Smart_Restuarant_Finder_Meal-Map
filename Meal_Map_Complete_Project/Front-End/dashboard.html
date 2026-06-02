@@ -132,6 +132,46 @@
             font-size: 0.85rem;
             color: var(--color-text-muted);
         }
+
+        /* Danger Zone */
+        .danger-zone {
+            background: #fff5f5;
+            border: 1px solid #ffcccc;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-top: var(--spacing-xl);
+        }
+
+        .danger-zone h3 {
+            color: var(--color-error);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .danger-zone p {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .btn-danger {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-error);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: var(--font-body);
+            transition: all var(--transition-fast);
+        }
+
+        .btn-danger:hover {
+            background: #a02020;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(204, 51, 51, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -196,6 +236,13 @@
                     <span>View Promotions</span>
                 </a>
             </div>
+
+            <!-- Danger Zone -->
+            <div class="danger-zone">
+                <h3>⚠️ Danger Zone</h3>
+                <p>Permanently delete your account and all associated data. This action is <strong>irreversible</strong>.</p>
+                <button class="btn-danger" id="deleteAccountBtn" onclick="confirmDeleteAccount()">🗑️ Delete My Account</button>
+            </div>
         </div>
     </section>
 
@@ -248,6 +295,39 @@
         }
 
         loadDashboard();
+
+        async function confirmDeleteAccount() {
+            // Step 1: Initial confirmation
+            const step1 = confirm(
+                'Are you sure you want to delete your account?\n\n' +
+                'This will permanently remove all your reservations, favorites, and reviews.'
+            );
+            if (!step1) return;
+
+            // Step 2: Final irreversibility warning
+            const step2 = confirm(
+                '⚠️ FINAL WARNING ⚠️\n\n' +
+                'This action is completely IRREVERSIBLE.\n' +
+                'Your account CANNOT be recovered after deletion.\n\n' +
+                'Click OK to permanently delete your account.'
+            );
+            if (!step2) return;
+
+            const btn = document.getElementById('deleteAccountBtn');
+            btn.disabled = true;
+            btn.textContent = 'Deleting...';
+
+            try {
+                await api.deleteAccount();
+                api.clearAuth();
+                alert('Your account has been permanently deleted.');
+                window.location.href = '/login';
+            } catch (err) {
+                btn.disabled = false;
+                btn.textContent = '🗑️ Delete My Account';
+                alert(`Failed to delete account: ${err.message}`);
+            }
+        }
     </script>
 </body>
 </html>
