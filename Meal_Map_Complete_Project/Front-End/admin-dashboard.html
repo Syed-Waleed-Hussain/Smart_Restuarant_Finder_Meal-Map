@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - MealMap</title>
+    <meta name="description" content="MealMap Admin Panel - Manage users, vendors, and system settings.">
+    <link rel="stylesheet" href="/css/shared-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .admin-title {
+            font-family: var(--font-heading);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-subtitle {
+            color: var(--color-text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+
+        .stat-label {
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        .admin-section {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border-light);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .admin-section h3 {
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--color-border-light);
+        }
+
+        .admin-table th {
+            background: var(--color-cream);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .role-badge {
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .role-admin { background: #cc3333; color: white; }
+        .role-vendor { background: #3d5a3a; color: white; }
+        .role-user { background: #e8e6e1; color: #2d2d2d; }
+
+        .action-btn {
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all var(--transition-fast);
+        }
+
+        .action-btn:hover {
+            background: var(--color-accent);
+            color: white;
+            border-color: var(--color-accent);
+        }
+
+        .action-btn.danger:hover {
+            background: var(--color-error);
+            border-color: var(--color-error);
+        }
+
+        #users-table-body tr {
+            transition: background var(--transition-fast);
+        }
+
+        #users-table-body tr:hover {
+            background: var(--color-cream);
+        }
+
+        @media (max-width: 768px) {
+            .admin-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .admin-table th, .admin-table td {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <script src="/js/api-client.js"></script>
+    <script>window.api = new RestaurantAPI();</script>
+    <script src="/js/header.js"></script>
+    <script>initializeHeader();</script>
+
+    <div class="admin-container">
+        <h1 class="admin-title">🛡️ Admin Panel</h1>
+        <p class="admin-subtitle">System overview and user management for MealMap.</p>
+
+        <!-- Stats -->
+        <div class="admin-stats">
+            <div class="stat-card">
+                <div class="stat-icon">👥</div>
+                <div class="stat-value" id="stat-users">—</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🏪</div>
+                <div class="stat-value" id="stat-vendors">—</div>
+                <div class="stat-label">Vendors</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">🍽️</div>
+                <div class="stat-value" id="stat-restaurants">—</div>
+                <div class="stat-label">Restaurants</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">📅</div>
+                <div class="stat-value" id="stat-reservations">—</div>
+                <div class="stat-label">Reservations</div>
+            </div>
+        </div>
+
+        <!-- User Management -->
+        <div class="admin-section">
+            <h3>👥 User Management</h3>
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Verified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="users-table-body">
+                    <tr>
+                        <td colspan="6" style="text-align:center; color:var(--color-text-muted); padding:2rem;">
+                            Loading users...
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="admin-section">
+            <h3>⚡ Quick Actions</h3>
+            <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                Admin API endpoints are protected by the <code>@admin_required</code> decorator.
+                Build out additional admin-only routes as your system scales.
+            </p>
+            <button class="btn btn-primary" onclick="loadAdminData()">🔄 Refresh Data</button>
+        </div>
+    </div>
+
+    <script>
+        // Guard: Only admins can access this page
+        (function() {
+            const user = window.api.getCurrentUser();
+            if (!user) {
+                window.location.href = '/login';
+                return;
+            }
+            const role = (user.Role || user.role || '').toLowerCase();
+            if (role !== 'admin') {
+                alert('Access Denied: Admin privileges required.');
+                window.location.href = '/';
+                return;
+            }
+        })();
+
+        async function loadAdminData() {
+            // Placeholder: In production, these would call dedicated admin API endpoints
+            // e.g., GET /api/admin/stats, GET /api/admin/users
+            document.getElementById('stat-users').textContent = '—';
+            document.getElementById('stat-vendors').textContent = '—';
+            document.getElementById('stat-restaurants').textContent = '—';
+            document.getElementById('stat-reservations').textContent = '—';
+
+            document.getElementById('users-table-body').innerHTML = `
+                <tr>
+                    <td colspan="6" style="text-align:center; color:var(--color-text-muted); padding:2rem;">
+                        Admin API endpoints not yet wired. Promote your account to admin using the SQL snippet, then build <code>/api/admin/*</code> routes.
+                    </td>
+                </tr>
+            `;
+        }
+
+        loadAdminData();
+    </script>
+</body>
+</html>
