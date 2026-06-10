@@ -1,6 +1,6 @@
 import sys
 import os
-import hashlib
+import bcrypt
 from datetime import datetime
 from config import get_db
 
@@ -27,8 +27,11 @@ class UserAccount:
 
     @staticmethod
     def hash_password(password):
-        return hashlib.sha256(
-            password.encode()).hexdigest() if password else None
+        if not password:
+            return None
+        salt = bcrypt.gensalt()
+        hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
+        return hashed.decode('utf-8')
 
     @staticmethod
     def get_by_email(email):
@@ -44,15 +47,21 @@ class UserAccount:
     @staticmethod
     def verify_login(email, password):
         db = get_db()
-        hashed = UserAccount.hash_password(password)
         cursor = db.cursor(buffered=True)
-        sql = "SELECT * FROM useraccount WHERE Email=%s AND PasswordHash=%s"
-        cursor.execute(sql, (email, hashed))
+        sql = "SELECT * FROM useraccount WHERE Email=%s"
+        cursor.execute(sql, (email, ))
         row = cursor.fetchone()
         cursor.close()
         db.close()
+        
         if row:
-            return True, row
+            stored_hash = row[5] # PasswordHash is index 5 based on row_to_dict
+            try:
+                if bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8')):
+                    return True, row
+            except ValueError:
+                # Catch "Invalid salt" errors from legacy SHA256 hashes
+                pass
         return False, None
 
     def register_user(self):
