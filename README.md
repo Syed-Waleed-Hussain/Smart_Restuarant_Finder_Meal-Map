@@ -1,267 +1,72 @@
-<p align="center">
+# MealMap - Smart Restaurant Finder
 
-</p>
+![MealMap Logo](https://img.shields.io/badge/Status-Live-brightgreen)
+![Tech Stack](https://img.shields.io/badge/Stack-Python%20%7C%20Flask%20%7C%20Vanilla%20JS-blue)
 
-<h1 align="center">🍽️ Meal-Map — Smart Restaurant Finder + Management System (SRMS)</h1>
+MealMap is a smart restaurant management and discovery platform. It features a fully responsive frontend built with Vanilla HTML/CSS/JS and a robust backend powered by Python Flask and TiDB (MySQL). 
 
-<p align="center">
-  Intelligent restaurant discovery, reservation, and management system powered by a Knowledge-Based Recommender System (KB-RS).
-</p>
+The platform supports a comprehensive **3-tier Role-Based Access Control (RBAC)** system:
+- **Users**: Can browse restaurants, leave reviews, and make reservations.
+- **Vendors (Owners)**: Have access to a dedicated dashboard to manage their restaurant details, approve/cancel reservations, create promotions, and update their menus.
+- **Admins**: Can oversee the entire platform, manage users, vendors, and view aggregate system statistics.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Status-Active-brightgreen" />
-  <img src="https://img.shields.io/badge/Version-1.0.0-blue" />
-  <img src="https://img.shields.io/badge/Backend-Python%203.10-yellow" />
-  <img src="https://img.shields.io/badge/Database-MySQL%20(Aiven)-orange" />
-  <img src="https://img.shields.io/badge/Frontend-HTML%20%2F%20CSS%20%2F%20JS-lightgrey" />
-  <img src="https://img.shields.io/badge/License-MIT-red" />
-</p>
-
+## 🚀 Live Demo
+You can view and test the live application here:  
+👉 **[https://mealmap-nu.vercel.app](https://mealmap-nu.vercel.app/)**
 
 ---
 
-# 🌟 Overview
+## 🔐 Test Accounts
 
-**Meal-Map** is a full-stack smart restaurant management and discovery system that connects customers and restaurant owners through features like:
+To explore the different dashboards and roles without registering, please use the following pre-configured dummy accounts. All accounts use the same password for convenience.
 
-- Online table reservations  
-- Smart restaurant recommendations  
-- Owner dashboards  
-- Menu & promotions management  
-- Cloud-hosted MySQL database  
-- Secure Python backend API  
+**Password for all accounts:** `Test@1234`
 
-It aims to automate restaurant operations and enhance customer experience with intelligence and seamless flow.
+| # | Role | Email | Login Tab |
+|---|------|-------|-----------|
+| 1 | 🛡️ Admin | `tariq.hussain@gmail.com` | Admin tab |
+| 2 | 🍽️ Vendor | `usman.ali@hotmail.com` | Owner tab |
+| 3 | 🍽️ Vendor | `hassan.rizvi@gmail.com` | Owner tab |
+| 4 | 🍽️ Vendor | `noman.aslam@gmail.com` | Owner tab |
+| 5 | 🍽️ Vendor | `faisal.malik@gmail.com` | Owner tab |
+| 6 | 🍽️ Vendor | `adnan.rauf@hotmail.com` | Owner tab |
+| 7 | 👤 User | `ali.raza@gmail.com` | User tab |
+| 8 | 👤 User | `ayesha.khan@yahoo.com` | User tab |
+| 9 | 👤 User | `bilal.ahmed@gmail.com` | User tab |
+| 10 | 👤 User | `fatima.zahid@gmail.com` | User tab |
+| 11 | 👤 User | `sana.javed@gmail.com` | User tab |
 
----
-
-# 🎯 System Concept & Vision
-
-## 🔍 What is Meal-Map?
-
-Meal-Map is a smart restaurant platform featuring:
-
-- User application  
-- Owner dashboard  
-- KB-RS recommendation engine  
-- Aiven-hosted MySQL database  
-- Python backend + HTML/CSS/JS frontend  
-
-## 👁️ Vision
-
-- Simplify restaurant discovery  
-- Provide personalized suggestions  
-- Enable effortless reservations  
-- Boost owner management efficiency  
-- Improve user experience with automation  
+*Note: Make sure to select the correct role tab on the Login page before entering the credentials!*
 
 ---
 
-# 👥 System Users
+## 🛠️ Tech Stack
+- **Frontend**: Vanilla HTML5, CSS3, JavaScript (ES6)
+- **Backend**: Python 3, Flask, JWT for Authentication
+- **Database**: TiDB (MySQL compatible)
+- **Deployment**: Vercel (Serverless Functions for Python + Static hosting for Frontend)
 
-### **1. Customer**
-- Sign up with OTP  
-- Explore restaurants  
-- Get smart recommendations  
-- Apply filters: cuisine, rating, budget, location  
-- Make reservations  
-- Leave reviews and mark favourites  
-- Manage dashboard  
+## 💻 Local Setup
 
-### **2. Restaurant Owner**
-- Manage restaurant profile  
-- Add or update menus  
-- Launch promotions  
-- Approve/cancel reservations  
-- Track ratings & customer activity  
+If you want to run this project locally on your machine:
 
----
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/yourusername/mealmap.git
+   cd mealmap
+   ```
 
-# 🏗️ Architecture
-```
-┌───────────────────────────────┐
-│ Presentation Layer │
-│ HTML • CSS • JavaScript │
-└───────────────────────────────┘
-┌───────────────────────────────┐
-│ Application Layer │
-│ Python Backend │
-└───────────────────────────────┘
-┌───────────────────────────────┐
-│ RS Logic Layer │
-│ Knowledge-Based Filtering Engine│
-└───────────────────────────────┘
-┌───────────────────────────────┐
-│ Database Layer │
-│ Aiven Cloud MySQL Database │
-└───────────────────────────────┘
-```
----
+2. **Set up the Python Environment:**
+   ```bash
+   cd backend
+   pip install -r requirements.txt
+   ```
 
-# ⚙️ Core Features
+3. **Configure Environment Variables:**
+   Create a `.env` file in the `backend` directory (you can copy `.env.example`) and add your database credentials and JWT secret.
 
-## ✨ Customer Features
-- Account creation + OTP  
-- Location-based exploration  
-- Advanced filtering  
-- Smart recommendations  
-- Table reservation  
-- Favourites & Reviews  
-- Personalized dashboard  
-
-## ✨ Owner Features
-- Restaurant management  
-- Menu CRUD operations  
-- Promotions control  
-- Reservation decisions  
-- Customer engagement insights  
-
-## 🔐 Security
-- Password hashing  
-- OTP verification  
-- SQL injection prevention  
-- API input validation  
-- Session management  
-
----
-
-# ☁️ Hosting & Deployment
-
-| Component  | Technology |
-|------------|------------|
-| Frontend   | HTML / CSS / JS |
-| Backend    | Python |
-| Database   | Aiven Cloud-Hosted MySQL |
-| Tools      | MySQL Workbench |
-
----
-
-# 🗄️ Database Structure
-
-The system uses **18 tables**:
-
-- `address`  
-- `cuisine`  
-- `favorite`  
-- `menu`  
-- `menuitem`  
-- `photo`  
-- `promotion`  
-- `rating`  
-- `reservation`  
-- `restaurant`  
-- `restaurantcuisine`  
-- `restaurantopeninghours`  
-- `restauranttable`  
-- `review`  
-- `useraccount`  
-- `useractivity`  
-- `useraddress`  
-- `usersession`  
-
-These tables enable complete restaurant, user, and reservation workflows.
-
----
-
-# 🧠 Recommender System (KB-RS)
-
-## 📌 Type  
-**Knowledge-Based Recommender System (KB-RS)**
-
-## 📌 Why KB-RS?
-- Works well with limited historical data  
-- Uses explicit constraints  
-- Ideal for new restaurants  
-
-## 📌 Filtering Constraints
-1. Cuisine Constraint  
-2. Rating Constraint  
-3. Budget Constraint  
-4. Spatial Location Constraint  
-5. Utility-Based Sorting  
-6. Top-N Results Limit  
-
-This ensures relevant, accurate restaurant recommendations.
-
----
-
-# 📂 Backend Overview
-
-### **Technology:** Python
-
-### **Responsibilities**
-- Authentication + OTP  
-- Password hashing  
-- KB-RS filtering engine  
-- Reservations logic  
-- CRUD operations  
-- Favourite, review, promotions logic  
-
-### **Entry File**
-```
-app.py
-```
----
-
-# 📈 UML Diagrams
-
-The project includes complete UML documentation:
-
-- Class Diagram  
-- Use-Case Diagrams  
-- Sequence Diagrams (User, Owner, Signup)  
-- Activity Diagrams  
-- Collaboration Diagram  
-- Timing Diagram  
-- Component Diagram  
-- Deployment Diagram  
-
----
-
-# 🚀 Installation & Setup
-
-## 1️⃣ Clone Repository
-```
-git clone https://github.com/Syed-Waleed-Hussain/meal-map.git
-cd meal-map
-```
-
-2️⃣ Install Python Dependencies
-```
-pip install -r requirements.txt
-```
-3️⃣ Setup Database
-```
-Import .sql schema
-Update DB credentials in App.py
-```
-4️⃣ Run Backend
-```
-python server.py
-python app.py
-```
-5️⃣ Run Frontend
-```
-Open index.html in a browser.
-```
-🔮 Future Enhancements
-ML-based popularity ranking
-Real-time order tracking
-Advanced analytics dashboard
-Chatbot for reservations
-
-🤝 Contributors
-Name	Roll Number
-Syed Waleed Hussain
-Sofia Ayaz	
-Shayan Nemat	
-
-📜 License
-This project is licensed under the MIT License.
-
-🙌 Acknowledgment
-Thank you for exploring Meal-Map!
-Enjoy the smart dining experience 🍽️💡
-
----
-
+4. **Run the Application:**
+   ```bash
+   python app.py
+   ```
+   The application will be available at `http://localhost:8000`.
