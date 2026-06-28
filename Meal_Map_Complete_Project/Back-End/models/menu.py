@@ -68,7 +68,7 @@ class Menu:
             allowed_fields = ['Name', 'Description', 'Price', 'image', 'IsAvailable']
             updates = []
             values = []
-            
+        
             for field, value in kwargs.items():
                 if field in allowed_fields and value is not None:
                     updates.append(f"{field} = %s")
