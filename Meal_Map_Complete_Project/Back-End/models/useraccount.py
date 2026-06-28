@@ -53,15 +53,27 @@ class UserAccount:
         row = cursor.fetchone()
         cursor.close()
         db.close()
-        
+
         if row:
-            stored_hash = row[5] # PasswordHash is index 5 based on row_to_dict
+            stored_hash = row[5]  # PasswordHash column (index 5)
+
+            # Guard: account has no password set (e.g. Google OAuth-only users)
+            if not stored_hash:
+                return False, None
+
+            # Guard: legacy MD5/SHA hashes are not bcrypt — reject immediately
+            # instead of letting bcrypt raise ValueError with a confusing error.
+            if not stored_hash.startswith("$2"):
+                # Hash is not bcrypt — password was never properly set for this
+                # account. Return False so the caller gets "invalid credentials".
+                return False, None
+
             try:
                 if bcrypt.checkpw(password.encode('utf-8'), stored_hash.encode('utf-8')):
                     return True, row
-            except ValueError:
-                # Catch "Invalid salt" errors from legacy SHA256 hashes
+            except (ValueError, Exception):
                 pass
+
         return False, None
 
     def register_user(self):
