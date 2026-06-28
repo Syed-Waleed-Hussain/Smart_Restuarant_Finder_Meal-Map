@@ -112,8 +112,6 @@ class Promotion:
             except:
                 pass
             return False, str(e)
-
-    # Soft delete
     @staticmethod
     def delete(promotion_id):
         return Promotion.update(promotion_id, IsActive=0)
