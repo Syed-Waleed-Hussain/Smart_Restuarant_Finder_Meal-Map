@@ -17,7 +17,6 @@ class Favorite:
                 cursor.close()
                 db.close()
                 return False, "Already in favorites"
-
             cursor.execute(
                 "INSERT INTO favorite (UserID, RestaurantID) VALUES (%s,%s)",
                 (user_id, restaurant_id)
