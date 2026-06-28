@@ -225,7 +225,6 @@ class Reservation:
                 "TableNumber"]
         return [dict(zip(keys, r)) for r in rows]
 
-    # Confirm reservation (owner action)
     @staticmethod
     def confirm_reservation(reservation_id):
         db = get_db()
