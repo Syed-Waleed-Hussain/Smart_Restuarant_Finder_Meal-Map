@@ -364,9 +364,6 @@ class Restaurant:
             print("Error verifying ownership:", e)
             return False
 
-    # ----------------------------------------------------
-    # Get restaurants with distance from user
-    # ----------------------------------------------------
     @staticmethod
     def get_all_with_distance(user_lat, user_lon):
         try:
@@ -450,9 +447,6 @@ class Restaurant:
             return []
 
 
-# ----------------------------------------------------
-# TEST (only runs if executed directly)
-# ----------------------------------------------------
 if __name__ == "__main__":
     print("Fetching all restaurants...")
     all_restaurants = Restaurant.get_all_restaurants()
