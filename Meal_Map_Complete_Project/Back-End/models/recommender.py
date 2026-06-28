@@ -39,7 +39,6 @@ class Recommender:
         """
 
         cuisine_ids = Recommender._get_cuisine_ids(cuisines or [])
-
         sql = """
         SELECT
             r.RestaurantID,
