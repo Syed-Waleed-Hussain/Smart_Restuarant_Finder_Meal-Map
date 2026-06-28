@@ -160,7 +160,6 @@ class Rating:
                     "CreatedAt": row[3].isoformat() if row[3] else None
                 }
             return None
-
         except Exception as e:
             try:
                 cursor.close()
