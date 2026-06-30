@@ -5,19 +5,13 @@
 
 class RestaurantAPI {
     constructor() {
-        // Use proxy approach for all browser environments
-        // The frontend server (server.py) proxies /api/* to backend at localhost:8000
-        // This works in both Replit and local development
-
-        // if (typeof window !== 'undefined') {
-        //     this.apiBase = '/api';
-        // } else {
-            // Node environment fallback
-        this.apiBase = 'http://127.0.0.1:8000';
-        // }
+        // Flask serves both the frontend and the API on the same port.
+        // All API blueprints are registered under the /api prefix.
+        this.apiBase = window.location.origin + '/api';
 
         this.user = null;
         this.userId = null;
+        this.token = null;
         this.loadAuth();
 
         console.log('API Base URL:', this.apiBase);
@@ -27,27 +21,35 @@ class RestaurantAPI {
         try {
             const userStr = localStorage.getItem('user');
             const userId = localStorage.getItem('userId');
+            const token = localStorage.getItem('jwt_token');
             if (userStr && userId) {
                 this.user = JSON.parse(userStr);
                 this.userId = userId;
+                this.token = token;
             }
         } catch (e) {
             console.error('Failed to load auth state:', e);
         }
     }
 
-    saveAuth(user, userId) {
+    saveAuth(user, userId, token = null) {
         this.user = user;
         this.userId = userId || user.UserID || user.Id;
         localStorage.setItem('user', JSON.stringify(user));
         localStorage.setItem('userId', this.userId);
+        if (token) {
+            this.token = token;
+            localStorage.setItem('jwt_token', token);
+        }
     }
 
     clearAuth() {
         this.user = null;
         this.userId = null;
+        this.token = null;
         localStorage.removeItem('user');
         localStorage.removeItem('userId');
+        localStorage.removeItem('jwt_token');
     }
 
     isAuthenticated() {
@@ -67,12 +69,19 @@ class RestaurantAPI {
      */
     async request(endpoint, options = {}) {
         try {
+            const headers = {
+                'Content-Type': 'application/json',
+                ...options.headers,
+            };
+            
+            const token = localStorage.getItem('jwt_token');
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
             const response = await fetch(`${this.apiBase}${endpoint}`, {
                 ...options,
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...options.headers,
-                },
+                headers,
             });
 
             if (!response.ok) {
@@ -177,6 +186,51 @@ class RestaurantAPI {
         return await this.request('/users/verify_otp', {
             method: 'POST',
             body: JSON.stringify({ email, otp }),
+        });
+    }
+
+    /**
+     * Request a password-reset OTP
+     * @param {string} email
+     */
+    async forgotPasswordRequest(email) {
+        return await this.request('/users/forgot-password/request', {
+            method: 'POST',
+            body: JSON.stringify({ email }),
+        });
+    }
+
+    /**
+     * Reset password using the OTP
+     * @param {string} email
+     * @param {string} otp
+     * @param {string} newPassword
+     */
+    async forgotPasswordReset(email, otp, newPassword) {
+        return await this.request('/users/forgot-password/reset', {
+            method: 'POST',
+            body: JSON.stringify({ email, otp, newPassword }),
+        });
+    }
+
+    /**
+     * Login / register with Google Identity Services credential
+     * @param {string} credential - JWT credential from Google
+     */
+    async googleLogin(credential) {
+        return await this.request('/users/google-login', {
+            method: 'POST',
+            body: JSON.stringify({ credential }),
+        });
+    }
+
+    /**
+     * Permanently delete the currently authenticated user account.
+     * Requires a valid JWT in localStorage.
+     */
+    async deleteAccount() {
+        return await this.request('/users/me', {
+            method: 'DELETE',
         });
     }
 
