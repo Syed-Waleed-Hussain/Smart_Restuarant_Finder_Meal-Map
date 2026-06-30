@@ -67,12 +67,20 @@
     box-sizing: border-box;
 }
 
+/* Prevent ANY element from causing horizontal scroll */
+html {
+    overflow-x: hidden;
+    max-width: 100%;
+}
+
 body {
     font-family: var(--font-body);
     background-color: var(--color-background);
     color: var(--color-text-primary);
     line-height: 1.7;
     font-size: 16px;
+    overflow-x: hidden; /* Critical: stops content bleeding right */
+    max-width: 100%;
 }
 
 /* ============================================
@@ -375,6 +383,8 @@ p {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
+    width: 100%; /* Ensures it never exceeds viewport */
+    box-sizing: border-box;
 }
 
 .text-center {
@@ -413,31 +423,6 @@ p {
 .empty-state h2 {
     color: var(--color-text-muted);
     margin-bottom: var(--spacing-md);
-}
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
-
-@media (max-width: 768px) {
-    .app-header {
-        flex-direction: column;
-        padding: var(--spacing-sm);
-    }
-
-    .app-nav {
-        flex-wrap: wrap;
-        gap: var(--spacing-sm);
-        margin-top: var(--spacing-sm);
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.75rem;
-    }
 }
 
 /* ============================================
@@ -568,25 +553,6 @@ p {
     }
 }
 
-@media (max-width: 768px) {
-    .hero-section {
-        min-height: 500px;
-    }
-
-    .hero-section::before,
-    .hero-section::after {
-        display: none;
-    }
-
-    .hero-section .container {
-        background: rgba(255, 255, 255, 0.98);
-    }
-
-    .hero-title {
-        font-size: 2.5rem;
-    }
-}
-
 /* ============================================
    FEATURE CARDS
    ============================================ */
@@ -713,4 +679,243 @@ p {
 
 .explore-link:hover {
     opacity: 0.8;
+}
+
+/* ============================================
+   MOBILE RESPONSIVENESS (Additive Only)
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Header & Navigation — mobile styles are handled by header.js inline <style>
+       to keep header layout self-contained. Do not re-add flex-direction:column
+       for .app-header here, as it will conflict with the hamburger layout. */
+    /* Typography */
+    h1 {
+        font-size: 2rem;
+        word-break: break-word; /* Prevents long titles from overflowing */
+    }
+
+    h2 {
+        font-size: 1.75rem;
+        word-break: break-word;
+    }
+
+    h3 {
+        font-size: 1.35rem;
+    }
+
+    /* Hero */
+    .hero-section {
+        min-height: 500px;
+        padding: var(--spacing-xl) var(--spacing-sm);
+    }
+
+    .hero-section::before,
+    .hero-section::after {
+        display: none;
+    }
+
+    .hero-section .container {
+        background: rgba(255, 255, 255, 0.98);
+    }
+
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Grids — single column on mobile */
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+        grid-template-columns: 1fr;
+    }
+
+    .feature-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    /* Restaurant / menu card grid — 1 col on mobile */
+    .menu-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Cards */
+    .card-image {
+        height: 180px;
+    }
+
+    .card-content {
+        padding: 1rem;
+    }
+
+    .feature-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+    }
+
+    .feature-title {
+        font-size: 1.15rem;
+    }
+
+    /* Buttons — full-width on mobile */
+    .btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.95rem;
+    }
+
+    .btn-large {
+        padding: 0.875rem 2rem;
+    }
+
+    /* Forms */
+    .form-input,
+    .form-select,
+    .form-textarea {
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+
+    /* Tables — horizontally scrollable wrapper */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        max-width: 100%;
+    }
+
+    /* Tables without a wrapper get a scroll container via the parent */
+    table {
+        min-width: 500px; /* Minimum readable width */
+    }
+
+    /* Tabs — allow horizontal scroll instead of wrap overflow */
+    .tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        padding-bottom: 4px; /* Space for scrollbar on some browsers */
+        scrollbar-width: none; /* Firefox */
+    }
+    .tabs::-webkit-scrollbar { display: none; } /* Chrome/Safari */
+
+    /* Filter tabs — horizontal scroll */
+    .filter-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+    }
+    .filter-tabs::-webkit-scrollbar { display: none; }
+
+    /* Container */
+    .container {
+        padding: 0 var(--spacing-sm);
+        max-width: 100%;
+    }
+
+    /* Sections */
+    .section {
+        padding: var(--spacing-lg) 0;
+    }
+
+    /* Stat card grids — 2 per row on mobile */
+    .admin-stats,
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* Quick action buttons — 1 per row on mobile */
+    .quick-actions {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Reservation card details — single column */
+    .reservation-details {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Reservation header — stack on mobile */
+    .reservation-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    /* Reservation action buttons — full width */
+    .reservation-actions {
+        flex-direction: column;
+    }
+    .reservation-actions .btn {
+        width: 100%;
+    }
+
+    /* Search bar — stack vertically */
+    .search-bar {
+        flex-direction: column;
+    }
+    .search-bar .price-input {
+        flex: 1 !important;
+    }
+    .search-bar .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .feature-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    /* Stat cards — single column on very small screens */
+    .admin-stats,
+    .dashboard-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Owner dashboard tabs — reduce padding for very small screens */
+    .tabs .tab {
+        padding: 10px 14px;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+
+    /* Filter buttons — compact */
+    .filters {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+    }
+    .filters::-webkit-scrollbar { display: none; }
+
+    /* Login container — reduce padding on tiny phones */
+    .login-container {
+        padding: var(--spacing-md) !important;
+    }
 }
