@@ -25,6 +25,9 @@
             justify-content: center;
             min-height: 100vh;
             padding: var(--spacing-lg);
+            /* Allow vertical scrolling if content is taller than viewport on small phones */
+            overflow-y: auto;
+            box-sizing: border-box;
         }
 
         .login-container {
@@ -34,6 +37,7 @@
             box-shadow: var(--shadow-lg);
             max-width: 420px;
             width: 100%;
+            box-sizing: border-box; /* Prevents width from overflowing padding */
         }
 
         .logo {
@@ -233,6 +237,45 @@
         /* Hidden views */
         .view { display: none; }
         .view.active { display: block; }
+
+        /* ── Mobile Overrides ── */
+        @media (max-width: 480px) {
+            .page-container {
+                padding: var(--spacing-sm);   /* Reduce outer padding */
+                align-items: flex-start;       /* Let content start from top, not centre */
+                padding-top: var(--spacing-lg);
+            }
+
+            .login-container {
+                padding: var(--spacing-md);    /* Tighter inner padding */
+                border-radius: var(--radius-md);
+                box-shadow: none;              /* No shadow needed when full-width */
+            }
+
+            .logo {
+                font-size: 1.6rem;
+                margin-bottom: var(--spacing-sm);
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: var(--spacing-sm);
+            }
+
+            /* Ensure inputs don't zoom on iOS */
+            input {
+                font-size: 16px;
+            }
+
+            .form-group {
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .role-tab {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.3rem;
+            }
+        }
     </style>
 </head>
 
