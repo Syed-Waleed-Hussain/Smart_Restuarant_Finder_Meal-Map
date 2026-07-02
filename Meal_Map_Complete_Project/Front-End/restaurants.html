@@ -208,6 +208,53 @@
             align-items: center;
             gap: 3px;
         }
+
+        /* ── Mobile Overrides ── */
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 2rem 0;
+            }
+
+            /* Search bar: stack inputs vertically */
+            .search-bar {
+                flex-direction: column;
+            }
+            .search-bar .price-input {
+                flex: 1 !important; /* Remove the 0.1 flex, take full width */
+            }
+            .search-bar .btn {
+                width: 100%;
+            }
+
+            /* Filter tabs: scroll horizontally, don't wrap onto next line */
+            .filter-tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                scrollbar-width: none;
+                padding-bottom: 4px;
+            }
+            .filter-tabs::-webkit-scrollbar { display: none; }
+
+            .filter-tab {
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+
+            /* Restaurant card grid: single column */
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-item-image {
+                height: 200px;
+            }
+
+            .menu-item-content {
+                padding: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
