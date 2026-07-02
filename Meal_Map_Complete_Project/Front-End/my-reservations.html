@@ -37,6 +37,7 @@
             font-size: 1.5rem;
             color: var(--color-text-primary);
             margin-bottom: 0.25rem;
+            word-break: break-word; /* Prevents long names from overflowing */
         }
 
         .reservation-status {
@@ -126,6 +127,56 @@
 
         .tab:hover {
             color: var(--color-accent);
+        }
+
+        /* ── Mobile Overrides ── */
+        @media (max-width: 768px) {
+            /* Tabs scroll horizontally instead of wrapping */
+            .tabs {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                flex-wrap: nowrap;
+                scrollbar-width: none;
+                padding-bottom: 4px;
+            }
+            .tabs::-webkit-scrollbar { display: none; }
+
+            .tab {
+                white-space: nowrap;
+                flex-shrink: 0;
+                padding: var(--spacing-xs) var(--spacing-sm);
+                font-size: 0.9rem;
+            }
+
+            /* Reservation card */
+            .reservation-card {
+                padding: 1rem;
+            }
+
+            .restaurant-name {
+                font-size: 1.2rem;
+            }
+
+            /* Stack reservation details in single column */
+            .reservation-details {
+                grid-template-columns: 1fr;
+            }
+
+            /* Reservation header: stack badge below title */
+            .reservation-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            /* Action buttons full-width */
+            .reservation-actions {
+                flex-direction: column;
+            }
+            .reservation-actions .btn {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
