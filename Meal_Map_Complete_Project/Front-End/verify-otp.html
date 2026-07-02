@@ -21,7 +21,7 @@
             color: #333;
             margin-bottom: 10px;
         }
-    
+        
         .verify-otp-container p {
             text-align: center;
             color: #666;
@@ -185,8 +185,10 @@
                     successEl.textContent = 'Email verified successfully! Redirecting to login...';
                     successEl.style.display = 'block';
                     
+                    // Clear pending email
                     localStorage.removeItem('pendingVerificationEmail');
                     
+                    // Redirect to login
                     setTimeout(() => {
                         window.location.href = '/login';
                     }, 2000);
@@ -205,6 +207,7 @@
             }
         });
 
+        // Auto-focus OTP input
         otpInput.focus();
     </script>
 </body>
