@@ -15,9 +15,6 @@ from routes.owners import owners_bp
 
 frontend_folder = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
 
-# Disable Flask's built-in static file handler to prevent it from
-# intercepting clean URLs (like /restaurants) and returning 404 before
-# our catch-all route can map them to .html files.
 app = Flask(__name__, static_folder=None)
 CORS(app)
 
