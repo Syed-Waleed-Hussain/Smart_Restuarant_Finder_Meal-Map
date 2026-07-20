@@ -22,7 +22,6 @@ def add_favorite():
     if ok:
         return jsonify({"message":msg}),200
     return jsonify({"error":msg}),400
-
 # Remove from favorites
 @favorites_bp.route("/remove", methods=["POST"])
 def remove_favorite():
@@ -35,7 +34,6 @@ def remove_favorite():
     if ok:
         return jsonify({"message":msg}),200
     return jsonify({"error":msg}),400
-
 # List favorites
 @favorites_bp.route("/user/<int:user_id>", methods=["GET"])
 def list_favorites(user_id):
