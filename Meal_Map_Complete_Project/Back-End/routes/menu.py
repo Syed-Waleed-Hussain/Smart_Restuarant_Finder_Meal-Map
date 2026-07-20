@@ -16,10 +16,6 @@ def get_menu(res_id):
         return jsonify({"message": "No menu found"}), 404
     return jsonify(data), 200
 
-
-# -------------------------------
-# GET SINGLE MENU ITEM
-# -------------------------------
 @menu_bp.route("/item/<int:item_id>", methods=["GET"])
 def get_item(item_id):
     row = Menu.get_single_item(item_id)
